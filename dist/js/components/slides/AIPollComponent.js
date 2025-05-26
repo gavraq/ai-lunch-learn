@@ -146,11 +146,11 @@ class AIPollComponent extends BaseComponent {
             // For poll index 1 ("What models are you using?"), add icons next to model names
             if (index === 1 && optionIndex < 5) { // Only for the first 5 options (the AI models)
                 const iconSrc = {
-                    'ChatGPT': '/openai.png',
-                    'Claude': '/claude-color.png',
-                    'Grok': '/grok.png',
-                    'Gemini': '/gemini-color.png',
-                    'Perplexity': '/perplexity-color.png'
+                    'ChatGPT': 'assets/images/openai.png',
+                    'Claude': 'assets/images/claude-color.png',
+                    'Grok': 'assets/images/grok.png',
+                    'Gemini': 'assets/images/gemini-color.png',
+                    'Perplexity': 'assets/images/perplexity-color.png'
                 }[option];
                 
                 if (iconSrc) {
@@ -189,11 +189,11 @@ class AIPollComponent extends BaseComponent {
             // For poll index 1 ("What models are you using?"), add icons next to model names in results
             if (index === 1 && optionIndex < 5) { // Only for the first 5 options (the AI models)
                 const iconSrc = {
-                    'ChatGPT': '/openai.png',
-                    'Claude': '/claude-color.png',
-                    'Grok': '/grok.png',
-                    'Gemini': '/gemini-color.png',
-                    'Perplexity': '/perplexity-color.png'
+                    'ChatGPT': 'assets/images/openai.png',
+                    'Claude': 'assets/images/claude-color.png',
+                    'Grok': 'assets/images/grok.png',
+                    'Gemini': 'assets/images/gemini-color.png',
+                    'Perplexity': 'assets/images/perplexity-color.png'
                 }[option];
                 
                 if (iconSrc) {
