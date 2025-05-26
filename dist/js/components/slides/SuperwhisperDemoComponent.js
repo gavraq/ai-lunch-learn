@@ -27,7 +27,7 @@ class SuperwhisperDemoComponent extends BaseComponent {
                         <i class="fas fa-play"></i> Play Demo
                     </button>
                 </div>
-                <img src="https://placehold.co/800x450/e6edf7/0c4da2?text=Superwhisper+Demo" alt="Superwhisper Demo" class="demo-image">
+                <img src="/superwhisper.jpeg" alt="Superwhisper Demo" class="demo-image" style="width: 100%; max-width: 800px;">
             </div>
         `;
         
@@ -83,23 +83,37 @@ class SuperwhisperDemoComponent extends BaseComponent {
         // In a real implementation, this would play a video or show an interactive demo
         const videoOverlay = document.querySelector('.video-overlay');
         const demoImage = document.querySelector('.demo-image');
+        const container = demoImage.parentElement;
         
         if (videoOverlay && demoImage) {
             videoOverlay.style.display = 'none';
-            demoImage.src = 'https://placehold.co/800x450/e6edf7/0c4da2?text=Demo+Playing...';
             
-            // Simulate a demo with changing images
+            // Create a demo sequence with text overlays instead of changing the image
+            const textOverlay = document.createElement('div');
+            textOverlay.className = 'text-overlay';
+            textOverlay.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: white; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; font-size: 18px;';
+            textOverlay.innerHTML = '<div>Demo Playing...</div>';
+            container.appendChild(textOverlay);
+            
+            // Simulate a demo with changing text overlays
             setTimeout(() => {
-                demoImage.src = 'https://placehold.co/800x450/e6edf7/0c4da2?text=Speaking:+"Meeting+about+credit+risk..."';
+                textOverlay.innerHTML = '<div>Speaking: "Meeting about credit risk..."</div>';
             }, 2000);
             
             setTimeout(() => {
-                demoImage.src = 'https://placehold.co/800x450/e6edf7/0c4da2?text=Transcribing...';
+                textOverlay.innerHTML = '<div>Transcribing...</div>';
             }, 4000);
             
             setTimeout(() => {
-                demoImage.src = 'https://placehold.co/800x450/e6edf7/0c4da2?text=Transcript:+"Meeting+about+credit+risk+workflow+improvements.+We+need+to+streamline+the+approval+process."';
+                textOverlay.innerHTML = '<div>Transcript: "Meeting about credit risk workflow improvements. We need to streamline the approval process."</div>';
             }, 6000);
+            
+            // Remove overlay after demo completes
+            setTimeout(() => {
+                textOverlay.style.opacity = '0';
+                textOverlay.style.transition = 'opacity 1s';
+                setTimeout(() => textOverlay.remove(), 1000);
+            }, 9000);
         }
     }
 }

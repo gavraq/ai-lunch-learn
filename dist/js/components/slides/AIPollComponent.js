@@ -1,7 +1,7 @@
 // AI Poll Component
 class AIPollComponent extends BaseComponent {
-    constructor() {
-        super();
+    constructor(slideData) {
+        super(slideData);
         this.polls = [
             {
                 question: "Who's used an AI model this week?",
@@ -40,53 +40,21 @@ class AIPollComponent extends BaseComponent {
         // Create poll container
         const pollContainer = document.createElement('div');
         pollContainer.className = 'poll-container';
-        pollContainer.id = 'active-poll';
+        pollContainer.id = 'poll-container';
         container.appendChild(pollContainer);
         
-        // Navigation buttons
+        // Create poll navigation
         const pollNav = document.createElement('div');
-        pollNav.className = 'flex justify-between mt-lg';
+        pollNav.className = 'poll-nav flex justify-between mt-lg';
         
-        const prevButton = this.createButton('Previous Poll', 'btn-secondary', () => this.showPoll(this.currentPollIndex - 1));
-        prevButton.id = 'prev-poll-btn';
-        prevButton.disabled = true;
-        
-        const nextButton = this.createButton('Next Poll', 'btn-primary', () => this.showPoll(this.currentPollIndex + 1));
-        nextButton.id = 'next-poll-btn';
-        
-        pollNav.appendChild(prevButton);
-        pollNav.appendChild(nextButton);
+        // Create poll navigation buttons with inline JavaScript
+        pollNav.innerHTML = `
+            <button id="prev-poll-btn" class="btn btn-secondary" onclick="document.pollComponent.navigatePoll(-1)" disabled>Previous Poll</button>
+            <button id="next-poll-btn" class="btn btn-primary" onclick="document.pollComponent.navigatePoll(1)">Next Poll</button>
+        `;
         container.appendChild(pollNav);
         
-        // Model logos section
-        const logosSection = document.createElement('div');
-        logosSection.className = 'logos-section mt-xl';
-        logosSection.innerHTML = `
-            <h3 class="mb-md">Popular AI Models</h3>
-            <div class="model-logos flex gap-md items-center justify-center">
-                <div class="model-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" alt="ChatGPT" width="60">
-                    <p>ChatGPT</p>
-                </div>
-                <div class="model-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Claude_logo.svg" alt="Claude" width="60">
-                    <p>Claude</p>
-                </div>
-                <div class="model-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Gemini_logo.svg" alt="Gemini" width="60">
-                    <p>Gemini</p>
-                </div>
-                <div class="model-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Grok_logo.svg" alt="Grok" width="60">
-                    <p>Grok</p>
-                </div>
-                <div class="model-logo">
-                    <img src="https://assets-global.website-files.com/64f6f2c0e3f4c5a91c1e823a/654693d569494a0d3c3a2a3b_favicon.png" alt="Perplexity" width="60">
-                    <p>Perplexity</p>
-                </div>
-            </div>
-        `;
-        container.appendChild(logosSection);
+        // We'll add the model logos dynamically in the showPoll method when showing poll index 1
         
         // Conclusion text
         const conclusion = document.createElement('p');
@@ -94,28 +62,78 @@ class AIPollComponent extends BaseComponent {
         conclusion.innerHTML = "To really leverage the potential we need to be keeping pace with developments in this field. I understand that our current in-house model (Co-pilot) is not the best, but we should be keeping abreast and experimenting outside of work too so that we are not left behind.";
         container.appendChild(conclusion);
         
+        // Store the component in the document for global access
+        document.pollComponent = this;
+        
         // Initialize the first poll after rendering
-        setTimeout(() => this.showPoll(0), 0);
+        setTimeout(() => this.showPoll(0), 100);
         
         return container;
     }
     
+    // Navigate to previous or next poll
+    navigatePoll(direction) {
+        const newIndex = this.currentPollIndex + direction;
+        if (newIndex >= 0 && newIndex < this.polls.length) {
+            this.showPoll(newIndex);
+        }
+    }
+    
     showPoll(index) {
+        // Validate index
         if (index < 0 || index >= this.polls.length) {
             return;
         }
         
+        // Update current index
         this.currentPollIndex = index;
-        const pollContainer = document.getElementById('active-poll');
+        
+        // Get container
+        const pollContainer = document.getElementById('poll-container');
+        if (!pollContainer) {
+            return;
+        }
+        
+        // Clear container
         pollContainer.innerHTML = '';
         
+        // Get current poll data
         const poll = this.polls[index];
+        
+        // Create poll counter
+        const pollCounter = document.createElement('div');
+        pollCounter.className = 'poll-counter text-center mb-sm';
+        pollCounter.style.fontSize = '14px';
+        pollCounter.style.color = '#666';
+        pollCounter.textContent = `Poll ${index + 1} of ${this.polls.length}`;
+        pollContainer.appendChild(pollCounter);
         
         // Create question
         const question = document.createElement('div');
         question.className = 'poll-question';
         question.textContent = poll.question;
         pollContainer.appendChild(question);
+        
+        // We'll add the model icons directly to the options for poll index 1
+        
+        // Add some custom styles for the poll options with icons
+        if (index === 1) {
+            const styleElement = document.createElement('style');
+            styleElement.textContent = `
+                .poll-option {
+                    padding: 12px 15px;
+                }
+                .poll-option img {
+                    vertical-align: middle;
+                    margin-right: 10px;
+                }
+                .poll-option.selected {
+                    background-color: #e6f7ff;
+                    border-color: #1890ff;
+                }
+            `;
+            pollContainer.appendChild(styleElement);
+        }
         
         // Create options
         const options = document.createElement('div');
@@ -124,8 +142,32 @@ class AIPollComponent extends BaseComponent {
         poll.options.forEach((option, optionIndex) => {
             const optionElement = document.createElement('div');
             optionElement.className = 'poll-option';
-            optionElement.textContent = option;
-            optionElement.addEventListener('click', () => this.selectOption(optionIndex));
+            
+            // For poll index 1 ("What models are you using?"), add icons next to model names
+            if (index === 1 && optionIndex < 5) { // Only for the first 5 options (the AI models)
+                const iconSrc = {
+                    'ChatGPT': '/openai.png',
+                    'Claude': '/claude-color.png',
+                    'Grok': '/grok.png',
+                    'Gemini': '/gemini-color.png',
+                    'Perplexity': '/perplexity-color.png'
+                }[option];
+                
+                if (iconSrc) {
+                    optionElement.innerHTML = `
+                        <div class="flex items-center">
+                            <img src="${iconSrc}" alt="${option}" width="30" class="mr-md">
+                            <span>${option}</span>
+                        </div>
+                    `;
+                } else {
+                    optionElement.textContent = option;
+                }
+            } else {
+                optionElement.textContent = option;
+            }
+            
+            optionElement.onclick = () => this.selectOption(optionIndex);
             options.appendChild(optionElement);
         });
         
@@ -143,10 +185,37 @@ class AIPollComponent extends BaseComponent {
             
             const resultLabel = document.createElement('div');
             resultLabel.className = 'flex justify-between mb-xs';
-            resultLabel.innerHTML = `
-                <span>${option}</span>
-                <span>${poll.results[optionIndex]} votes</span>
-            `;
+            
+            // For poll index 1 ("What models are you using?"), add icons next to model names in results
+            if (index === 1 && optionIndex < 5) { // Only for the first 5 options (the AI models)
+                const iconSrc = {
+                    'ChatGPT': '/openai.png',
+                    'Claude': '/claude-color.png',
+                    'Grok': '/grok.png',
+                    'Gemini': '/gemini-color.png',
+                    'Perplexity': '/perplexity-color.png'
+                }[option];
+                
+                if (iconSrc) {
+                    resultLabel.innerHTML = `
+                        <span class="flex items-center">
+                            <img src="${iconSrc}" alt="${option}" width="20" class="mr-sm">
+                            <span>${option}</span>
+                        </span>
+                        <span>${poll.results[optionIndex]} votes</span>
+                    `;
+                } else {
+                    resultLabel.innerHTML = `
+                        <span>${option}</span>
+                        <span>${poll.results[optionIndex]} votes</span>
+                    `;
+                }
+            } else {
+                resultLabel.innerHTML = `
+                    <span>${option}</span>
+                    <span>${poll.results[optionIndex]} votes</span>
+                `;
+            }
             
             const resultBar = document.createElement('div');
             resultBar.className = 'poll-bar';
@@ -164,8 +233,11 @@ class AIPollComponent extends BaseComponent {
         pollContainer.appendChild(results);
         
         // Update navigation buttons
-        document.getElementById('prev-poll-btn').disabled = index === 0;
-        document.getElementById('next-poll-btn').disabled = index === this.polls.length - 1;
+        const prevButton = document.getElementById('prev-poll-btn');
+        const nextButton = document.getElementById('next-poll-btn');
+        
+        if (prevButton) prevButton.disabled = index === 0;
+        if (nextButton) nextButton.disabled = index === this.polls.length - 1;
     }
     
     selectOption(optionIndex) {
