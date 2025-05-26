@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component Loader Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .test-controls {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .component-result {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .success {
+            border-left: 5px solid green;
+        }
+        .failure {
+            border-left: 5px solid red;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .component-selector {
+            margin: 20px 0;
+        }
+        select, input {
+            padding: 8px;
+            margin-right: 10px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+        .summary {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9f7ef;
+            border-radius: 5px;
+        }
+        .fix-section {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f9e79f;
+            border-radius: 5px;
+        }
+        .code-fix {
+            background-color: #eee;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .log-container {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Component Loader Test</h1>
+    <p>This page tests the component loading mechanism used in the presentation.</p>
+    
+    <div class="test-section">
+        <h2>Test 1: Component Registry Status</h2>
+        <div class="test-controls">
+            <button onclick="checkRegistryStatus()">Check Registry Status</button>
+        </div>
+        <div id="registry-status" class="results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Individual Component Test</h2>
+        <div class="component-selector">
+            <select id="component-select">
+                <option value="">Select a component...</option>
+                <option value="IntroMain">IntroMain (Working)</option>
+                <option value="CreditRiskGoals">CreditRiskGoals (Working)</option>
+                <option value="PrototypingAttempts">PrototypingAttempts</option>
+                <option value="StructuredApproach">StructuredApproach</option>
+                <option value="DeepResearch">DeepResearch</option>
+                <option value="BusinessRequirements">BusinessRequirements</option>
+                <option value="UiUxDesign">UiUxDesign</option>
+                <option value="FormDesign">FormDesign</option>
+                <option value="ArchitectureDesign">ArchitectureDesign</option>
+                <option value="StateModel">StateModel</option>
+                <option value="ConsistencyCheck">ConsistencyCheck</option>
+                <option value="ProjectPlan">ProjectPlan</option>
+                <option value="AICodingTools">AICodingTools</option>
+                <option value="MCPServers">MCPServers</option>
+                <option value="TaskMaster">TaskMaster</option>
+                <option value="VibeCodingStart">VibeCodingStart</option>
+                <option value="Testing">Testing</option>
+                <option value="Documentation">Documentation</option>
+                <option value="Backups">Backups</option>
+                <option value="LiveDemo">LiveDemo</option>
+            </select>
+            <button onclick="testSelectedComponent()">Test Component</button>
+        </div>
+        <div id="component-test-result" class="results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Run All Component Tests</h2>
+        <div class="test-controls">
+            <button onclick="runAllComponentTests()">Run All Tests</button>
+        </div>
+        <div id="all-test-results" class="results"></div>
+        <div id="test-summary" class="summary"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 4: Compare Working vs Non-Working Components</h2>
+        <div class="test-controls">
+            <button onclick="compareComponents()">Compare Components</button>
+        </div>
+        <div id="comparison-results" class="results"></div>
+    </div>
+    
+    <div class="fix-section">
+        <h2>Fix Generator</h2>
+        <p>Based on test results, generate code to fix the component loading issues.</p>
+        <div class="test-controls">
+            <button onclick="generateFix()">Generate Fix</button>
+        </div>
+        <div id="fix-result" class="results"></div>
+    </div>
+    
+    <div class="log-container" id="console-log"></div>
+
+    <!-- Base Component first -->
+    <script src="../dist/js/BaseComponent.js"></script>
+    
+    <!-- Placeholder Component -->
+    <script src="../dist/js/components/PlaceholderComponent.js"></script>
+    
+    <!-- All Components before config -->
+    <script src="../dist/js/components/slides/IntroMainComponent.js"></script>
+    <script src="../dist/js/components/slides/AIPollComponent.js"></script>
+    <script src="../dist/js/components/slides/SuperwhisperDemoComponent.js"></script>
+    <script src="../dist/js/components/slides/AgenticWorldComponent.js"></script>
+    <script src="../dist/js/components/slides/CreditRiskGoalsComponent.js"></script>
+    <script src="../dist/js/components/slides/StructuredPromptingComponent.js"></script>
+    <script src="../dist/js/components/slides/PowerOfVoiceComponent.js"></script>
+    <script src="../dist/js/components/slides/RAGDemoComponent.js"></script>
+    <script src="../dist/js/components/slides/VoiceAgentsComponent.js"></script>
+    <script src="../dist/js/components/slides/AgentOrchestrationComponent.js"></script>
+    <script src="../dist/js/components/slides/OldVsNewComponent.js"></script>
+    <script src="../dist/js/components/slides/VibeCodingComponent.js"></script>
+    
+    <!-- Newly added prototyping components -->
+    <script src="../dist/js/components/slides/PrototypingAttemptsComponent.js"></script>
+    <script src="../dist/js/components/slides/StructuredApproachComponent.js"></script>
+    <script src="../dist/js/components/slides/DeepResearchComponent.js"></script>
+    <script src="../dist/js/components/slides/BusinessRequirementsComponent.js"></script>
+    <script src="../dist/js/components/slides/UiUxDesignComponent.js"></script>
+    <script src="../dist/js/components/slides/FormDesignComponent.js"></script>
+    <script src="../dist/js/components/slides/ArchitectureDesignComponent.js"></script>
+    <script src="../dist/js/components/slides/StateModelComponent.js"></script>
+    <script src="../dist/js/components/slides/ConsistencyCheckComponent.js"></script>
+    <script src="../dist/js/components/slides/ProjectPlanComponent.js"></script>
+    <script src="../dist/js/components/slides/AICodingToolsComponent.js"></script>
+    <script src="../dist/js/components/slides/MCPServersComponent.js"></script>
+    <script src="../dist/js/components/slides/TaskMasterComponent.js"></script>
+    <script src="../dist/js/components/slides/VibeCodingStartComponent.js"></script>
+    <script src="../dist/js/components/slides/TestingComponent.js"></script>
+    <script src="../dist/js/components/slides/DocumentationComponent.js"></script>
+    <script src="../dist/js/components/slides/BackupsComponent.js"></script>
+    <script src="../dist/js/components/slides/LiveDemoComponent.js"></script>
+    
+    <script src="../dist/js/components/slides/AIChallenge.js"></script>
+    <script src="../dist/js/components/slides/Resources.js"></script>
+    <script src="../dist/js/components/slides/FinalThought.js"></script>
+    
+    <!-- Component registry -->
+    <script src="../dist/js/components.js"></script>
+    
+    <!-- Component loader test script -->
+    <script src="component-loader-test.js"></script>
+    
+    <script>
+        // Override console.log to capture output
+        const originalConsoleLog = console.log;
+        const consoleLogDiv = document.getElementById('console-log');
+        
+        console.log = function() {
+            // Call original console.log
+            originalConsoleLog.apply(console, arguments);
+            
+            // Add to our log div
+            const args = Array.from(arguments);
+            const message = args.map(arg => {
+                if (typeof arg === 'object') {
+                    return JSON.stringify(arg, null, 2);
+                } else {
+                    return String(arg);
+                }
+            }).join(' ');
+            
+            consoleLogDiv.innerHTML += `<div>${message}</div>`;
+            consoleLogDiv.scrollTop = consoleLogDiv.scrollHeight;
+        };
+        
+        // Test 1: Check component registry status
+        function checkRegistryStatus() {
+            const statusDiv = document.getElementById('registry-status');
+            statusDiv.innerHTML = '';
+            
+            try {
+                if (typeof componentRegistry !== 'undefined') {
+                    const componentCount = Object.keys(componentRegistry.components).length;
+                    
+                    let html = `<p>Component registry is available with ${componentCount} registered components.</p>`;
+                    html += '<h3>Registered Components:</h3><ul>';
+                    
+                    Object.keys(componentRegistry.components).forEach(key => {
+                        const componentClass = componentRegistry.components[key];
+                        html += `<li><strong>${key}</strong>: ${componentClass.name}</li>`;
+                    });
+                    
+                    html += '</ul>';
+                    statusDiv.innerHTML = html;
+                } else {
+                    statusDiv.innerHTML = '<p class="failure">Component registry is not available!</p>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<p class="failure">Error checking registry: ${error.message}</p>`;
+            }
+        }
+        
+        // Test 2: Test individual component
+        function testSelectedComponent() {
+            const componentName = document.getElementById('component-select').value;
+            const resultDiv = document.getElementById('component-test-result');
+            
+            if (!componentName) {
+                resultDiv.innerHTML = '<p>Please select a component to test.</p>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<p>Testing component...</p>';
+            
+            try {
+                // Clear console log
+                consoleLogDiv.innerHTML = '';
+                
+                // Run the test
+                const report = testComponentLoading(componentName);
+                
+                // Display results
+                let html = `<div class="component-result ${report.success ? 'success' : 'failure'}">`;
+                html += `<h3>${componentName} ${report.success ? '✅' : '❌'}</h3>`;
+                html += '<h4>Loading Methods:</h4><ul>';
+                
+                Object.keys(report.methods).forEach(method => {
+                    html += `<li><strong>${method}:</strong> ${report.methods[method] ? 'Yes' : 'No'}</li>`;
+                });
+                
+                html += '</ul>';
+                html += `<p><strong>Component Type:</strong> ${report.componentType}</p>`;
+                html += `<p><strong>Is BaseComponent:</strong> ${report.isBaseComponent}</p>`;
+                
+                // Add specific guidance based on results
+                if (!report.success) {
+                    html += '<h4>Diagnosis:</h4>';
+                    html += '<p>This component is falling back to the PlaceholderComponent, which is why it shows "under construction".</p>';
+                    
+                    if (!report.methods.registry) {
+                        html += '<p>The component is not being found in the registry. Check the registration in components.js.</p>';
+                    }
+                    
+                    if (!report.methods.exactName) {
+                        html += `<p>The component is not available as window.${componentName}. Check if it's being attached to the window object.</p>`;
+                    }
+                    
+                    if (!report.methods.withComponentSuffix) {
+                        html += `<p>The component is not available as window.${componentName}Component. Check if the class is properly defined.</p>`;
+                    }
+                }
+                
+                html += '</div>';
+                resultDiv.innerHTML = html;
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="failure">Error testing component: ${error.message}</p>`;
+            }
+        }
+        
+        // Test 3: Run all component tests
+        function runAllComponentTests() {
+            const resultsDiv = document.getElementById('all-test-results');
+            const summaryDiv = document.getElementById('test-summary');
+            
+            resultsDiv.innerHTML = '<p>Running all tests...</p>';
+            summaryDiv.innerHTML = '';
+            
+            try {
+                // Clear console log
+                consoleLogDiv.innerHTML = '';
+                
+                // Run all tests
+                const results = runAllTests();
+                
+                // Display results
+                let html = '';
+                let successCount = 0;
+                let failureCount = 0;
+                
+                Object.keys(results).forEach(component => {
+                    const report = results[component];
+                    const success = report.success;
+                    
+                    if (success) {
+                        successCount++;
+                    } else {
+                        failureCount++;
+                    }
+                    
+                    html += `<div class="component-result ${success ? 'success' : 'failure'}">`;
+                    html += `<h3>${component} ${success ? '✅' : '❌'}</h3>`;
+                    
+                    let loadMethod = 'None';
+                    if (report.methods.registry) loadMethod = 'Registry';
+                    else if (report.methods.exactName) loadMethod = 'Exact Name';
+                    else if (report.methods.withComponentSuffix) loadMethod = 'With Component Suffix';
+                    else if (report.methods.fallback) loadMethod = 'Fallback (Placeholder)';
+                    
+                    html += `<p><strong>Loading Method:</strong> ${loadMethod}</p>`;
+                    html += `<p><strong>Component Type:</strong> ${report.componentType}</p>`;
+                    html += '</div>';
+                });
+                
+                resultsDiv.innerHTML = html;
+                
+                // Display summary
+                summaryDiv.innerHTML = `
+                    <h3>Test Summary</h3>
+                    <p><strong>Total Components:</strong> ${successCount + failureCount}</p>
+                    <p><strong>Successfully Loaded:</strong> ${successCount}</p>
+                    <p><strong>Failed to Load:</strong> ${failureCount}</p>
+                `;
+                
+                // Add diagnosis if there are failures
+                if (failureCount > 0) {
+                    summaryDiv.innerHTML += `
+                        <h3>Diagnosis</h3>
+                        <p>Some components are not loading correctly and are falling back to the placeholder component.</p>
+                        <p>This is why you're seeing "This slide is under construction" for those components.</p>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p class="failure">Error running tests: ${error.message}</p>`;
+            }
+        }
+        
+        // Test 4: Compare working vs non-working components
+        function compareComponents() {
+            const resultsDiv = document.getElementById('comparison-results');
+            resultsDiv.innerHTML = '<p>Comparing components...</p>';
+            
+            try {
+                // Clear console log
+                consoleLogDiv.innerHTML = '';
+                
+                // Test a working component
+                const workingComponent = 'IntroMain';
+                const workingReport = testComponentLoading(workingComponent);
+                
+                // Test a non-working component
+                const nonWorkingComponent = 'PrototypingAttempts';
+                const nonWorkingReport = testComponentLoading(nonWorkingComponent);
+                
+                // Compare the two
+                let html = '<h3>Comparison Results</h3>';
+                
+                html += '<div class="component-result success">';
+                html += `<h4>Working Component: ${workingComponent}</h4>`;
+                html += '<pre>' + JSON.stringify(workingReport, null, 2) + '</pre>';
+                html += '</div>';
+                
+                html += '<div class="component-result failure">';
+                html += `<h4>Non-Working Component: ${nonWorkingComponent}</h4>`;
+                html += '<pre>' + JSON.stringify(nonWorkingReport, null, 2) + '</pre>';
+                html += '</div>';
+                
+                // Analyze differences
+                html += '<h3>Key Differences</h3><ul>';
+                
+                // Check registry
+                if (workingReport.methods.registry !== nonWorkingReport.methods.registry) {
+                    html += `<li><strong>Registry:</strong> ${workingComponent} ${workingReport.methods.registry ? 'is' : 'is not'} in registry, but ${nonWorkingComponent} ${nonWorkingReport.methods.registry ? 'is' : 'is not'}</li>`;
+                }
+                
+                // Check exact name
+                if (workingReport.methods.exactName !== nonWorkingReport.methods.exactName) {
+                    html += `<li><strong>Exact Name:</strong> ${workingComponent} ${workingReport.methods.exactName ? 'is' : 'is not'} available by exact name, but ${nonWorkingComponent} ${nonWorkingReport.methods.exactName ? 'is' : 'is not'}</li>`;
+                }
+                
+                // Check with Component suffix
+                if (workingReport.methods.withComponentSuffix !== nonWorkingReport.methods.withComponentSuffix) {
+                    html += `<li><strong>With Component Suffix:</strong> ${workingComponent} ${workingReport.methods.withComponentSuffix ? 'is' : 'is not'} available with Component suffix, but ${nonWorkingComponent} ${nonWorkingReport.methods.withComponentSuffix ? 'is' : 'is not'}</li>`;
+                }
+                
+                html += '</ul>';
+                
+                // Add diagnosis
+                html += '<h3>Diagnosis</h3>';
+                if (!nonWorkingReport.success) {
+                    html += `<p>The non-working component (${nonWorkingComponent}) is not being found by any of the loading methods and is falling back to the placeholder.</p>`;
+                    
+                    if (workingReport.methods.exactName && !nonWorkingReport.methods.exactName) {
+                        html += `<p>The working component (${workingComponent}) is available as window.${workingComponent}, but the non-working component is not available as window.${nonWorkingComponent}.</p>`;
+                        html += `<p>This suggests that we need to make ${nonWorkingComponent} available in the global window object.</p>`;
+                    }
+                }
+                
+                resultsDiv.innerHTML = html;
+            } catch (error) {
+                resultsDiv.innerHTML = `<p class="failure">Error comparing components: ${error.message}</p>`;
+            }
+        }
+        
+        // Generate fix based on test results
+        function generateFix() {
+            const fixResultDiv = document.getElementById('fix-result');
+            fixResultDiv.innerHTML = '<p>Generating fix...</p>';
+            
+            try {
+                // Run tests on a working and non-working component
+                const workingComponent = 'IntroMain';
+                const nonWorkingComponent = 'PrototypingAttempts';
+                
+                const workingReport = testComponentLoading(workingComponent);
+                const nonWorkingReport = testComponentLoading(nonWorkingComponent);
+                
+                let html = '<h3>Diagnosis</h3>';
+                
+                if (!nonWorkingReport.success) {
+                    if (workingReport.methods.exactName && !nonWorkingReport.methods.exactName) {
+                        html += `<p>The issue is that the non-working components are not available in the global window object with their exact names (without "Component" suffix).</p>`;
+                        html += `<p>The presentation.js file is looking for components in the window object first, before checking the registry.</p>`;
+                        
+                        html += '<h3>Recommended Fix</h3>';
+                        html += '<p>Add the following code to the config.js file to make the components available in the global window object:</p>';
+                        
+                        html += '<div class="code-fix">';
+                        html += '<pre>';
+                        html += `// Make components available in the global window object
+window.PrototypingAttempts = PrototypingAttemptsComponent;
+window.StructuredApproach = StructuredApproachComponent;
+window.DeepResearch = DeepResearchComponent;
+window.BusinessRequirements = BusinessRequirementsComponent;
+window.UiUxDesign = UiUxDesignComponent;
+window.FormDesign = FormDesignComponent;
+window.ArchitectureDesign = ArchitectureDesignComponent;
+window.StateModel = StateModelComponent;
+window.ConsistencyCheck = ConsistencyCheckComponent;
+window.ProjectPlan = ProjectPlanComponent;
+window.AICodingTools = AICodingToolsComponent;
+window.MCPServers = MCPServersComponent;
+window.TaskMaster = TaskMasterComponent;
+window.VibeCodingStart = VibeCodingStartComponent;
+window.Testing = TestingComponent;
+window.Documentation = DocumentationComponent;
+window.Backups = BackupsComponent;
+window.LiveDemo = LiveDemoComponent;`;
+                        html += '</pre>';
+                        html += '</div>';
+                        
+                        html += '<p>Alternatively, you could modify the presentation.js file to prioritize the component registry over the window object.</p>';
+                        
+                        html += '<h3>Alternative Fix</h3>';
+                        html += '<p>Modify the presentation.js file to check the registry first:</p>';
+                        
+                        html += '<div class="code-fix">';
+                        html += '<pre>';
+                        html += `// In presentation.js, modify the component loading logic
+// Try component registry first
+if (window.componentRegistry && typeof window.componentRegistry.get === 'function') {
+    this.currentComponent = window.componentRegistry.get(currentSlide.component, currentSlide);
+    if (this.currentComponent) {
+        console.log('Component found in registry:', currentSlide.component);
+    }
+}
+// If still no component, try direct instantiation
+if (!this.currentComponent) {
+    // Try different variations of the component name
+    let ComponentClass = null;
+    
+    // Try exact name as provided in config
+    if (window[currentSlide.component]) {
+        ComponentClass = window[currentSlide.component];
+        console.log('Found component with exact name:', currentSlide.component);
+    } 
+    // Try with Component suffix if not already ending with it
+    else if (!currentSlide.component.endsWith('Component') && window[currentSlide.component + 'Component']) {
+        ComponentClass = window[currentSlide.component + 'Component'];
+        console.log('Found component with Component suffix:', currentSlide.component + 'Component');
+    }
+    
+    if (ComponentClass) {
+        this.currentComponent = new ComponentClass(currentSlide);
+        console.log('Component instance created:', !!this.currentComponent);
+    } else {
+        // If no component is found, use the PlaceholderComponent
+        console.log('Using PlaceholderComponent for', currentSlide.component);
+        this.currentComponent = new PlaceholderComponent(currentSlide);
+    }
+}`;
+                        html += '</pre>';
+                        html += '</div>';
+                    }
+                }
+                
+                fixResultDiv.innerHTML = html;
+            } catch (error) {
+                fixResultDiv.innerHTML = `<p class="failure">Error generating fix: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

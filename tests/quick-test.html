@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component Quick Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .test-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .failure {
+            color: red;
+            font-weight: bold;
+        }
+        button {
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        #results {
+            white-space: pre-wrap;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Component Quick Test</h1>
+    <div class="test-container">
+        <button id="test-all">Test All Components</button>
+        <button id="test-structured-prompting">Test StructuredPromptingComponent</button>
+        <button id="test-agent-orchestration">Test AgentOrchestrationComponent</button>
+    </div>
+    <div id="results"></div>
+
+    <!-- Load all necessary scripts in the correct order -->
+    <!-- First load base utilities and components -->
+    <script src="../dist/js/utils.js"></script>
+    <script src="../dist/js/components/BaseComponent.js"></script>
+    <script src="../dist/js/components/PlaceholderComponent.js"></script>
+    
+    <!-- Load all component files before the registry -->
+    <script src="../dist/js/components/slides/IntroMainComponent.js"></script>
+    <script src="../dist/js/components/slides/AIPollComponent.js"></script>
+    <script src="../dist/js/components/slides/SuperwhisperDemoComponent.js"></script>
+    <script src="../dist/js/components/slides/AgenticWorldComponent.js"></script>
+    <script src="../dist/js/components/slides/CreditRiskGoalsComponent.js"></script>
+    <script src="../dist/js/components/slides/StructuredPromptingComponent.js"></script>
+    <script src="../dist/js/components/slides/PowerOfVoiceComponent.js"></script>
+    <script src="../dist/js/components/slides/RAGDemoComponent.js"></script>
+    <script src="../dist/js/components/slides/VoiceAgentsComponent.js"></script>
+    <script src="../dist/js/components/slides/AgentOrchestrationComponent.js"></script>
+    
+    <!-- Load the component registry last -->
+    <script src="../dist/js/components.js"></script>
+    
+    <script>
+        // Helper function to log to the results div
+        function log(message) {
+            const results = document.getElementById('results');
+            results.innerHTML += message + '\n';
+        }
+        
+        // Ensure all components are available in the global scope
+        function ensureGlobalComponents() {
+            // Make sure StructuredPromptingComponent is in global scope
+            if (typeof StructuredPromptingComponent === 'function') {
+                window.StructuredPromptingComponent = StructuredPromptingComponent;
+            }
+            
+            // Make sure AgentOrchestrationComponent is in global scope
+            if (typeof AgentOrchestrationComponent === 'function') {
+                window.AgentOrchestrationComponent = AgentOrchestrationComponent;
+            }
+            
+            // Make all registered components available in the global scope
+            if (window.componentRegistry && window.componentRegistry.components) {
+                Object.entries(window.componentRegistry.components).forEach(([name, ComponentClass]) => {
+                    window[name + 'Component'] = ComponentClass;
+                });
+            }
+        }
+        
+        // Test a specific component
+        function testComponent(componentName) {
+            log(`\n=== Testing ${componentName} ===`);
+            
+            // Ensure components are in global scope
+            ensureGlobalComponents();
+            
+            try {
+                // Try to instantiate the component
+                const ComponentClass = window[componentName];
+                if (!ComponentClass) {
+                    log(`❌ Component class ${componentName} not found in global scope`);
+                    return false;
+                }
+                
+                log(`✅ Found component class: ${componentName}`);
+                
+                // Check if it extends BaseComponent
+                const mockSlideData = { id: 'test', title: 'Test' };
+                const instance = new ComponentClass(mockSlideData);
+                
+                if (!(instance instanceof BaseComponent)) {
+                    log(`❌ ${componentName} does not extend BaseComponent`);
+                    return false;
+                }
+                
+                log(`✅ ${componentName} extends BaseComponent`);
+                
+                // Check if it has createContent method
+                if (typeof instance.createContent !== 'function') {
+                    log(`❌ ${componentName} does not have createContent method`);
+                    return false;
+                }
+                
+                log(`✅ ${componentName} has createContent method`);
+                
+                // Try to call createContent
+                const content = instance.createContent();
+                if (!content) {
+                    log(`❌ ${componentName}.createContent() did not return content`);
+                    return false;
+                }
+                
+                log(`✅ ${componentName}.createContent() returned content`);
+                
+                // Success!
+                log(`✅ ${componentName} passed all tests!`);
+                return true;
+            } catch (error) {
+                log(`❌ Error testing ${componentName}: ${error.message}`);
+                console.error(error);
+                return false;
+            }
+        }
+        
+        // Test all components registered in componentRegistry
+        function testAllComponents() {
+            log('=== Testing All Registered Components ===');
+            
+            // Ensure components are in global scope
+            ensureGlobalComponents();
+            
+            if (!window.componentRegistry || !window.componentRegistry.components) {
+                log('❌ Component registry not found or empty');
+                return;
+            }
+            
+            const componentNames = Object.keys(window.componentRegistry.components);
+            log(`Found ${componentNames.length} registered components`);
+            
+            let passCount = 0;
+            let failCount = 0;
+            
+            componentNames.forEach(name => {
+                try {
+                    const ComponentClass = window.componentRegistry.components[name];
+                    const mockSlideData = { id: 'test', title: 'Test' };
+                    const instance = new ComponentClass(mockSlideData);
+                    
+                    if (!(instance instanceof BaseComponent)) {
+                        log(`❌ ${name}: does not extend BaseComponent`);
+                        failCount++;
+                        return;
+                    }
+                    
+                    if (typeof instance.createContent !== 'function') {
+                        log(`❌ ${name}: does not have createContent method`);
+                        failCount++;
+                        return;
+                    }
+                    
+                    log(`✅ ${name}: extends BaseComponent and has createContent method`);
+                    passCount++;
+                } catch (error) {
+                    log(`❌ ${name}: error - ${error.message}`);
+                    failCount++;
+                }
+            });
+            
+            log(`\n=== Summary ===`);
+            log(`✅ ${passCount} components passed`);
+            log(`❌ ${failCount} components failed`);
+        }
+        
+        // Set up event listeners
+        document.getElementById('test-all').addEventListener('click', () => {
+            document.getElementById('results').innerHTML = '';
+            testAllComponents();
+        });
+        
+        document.getElementById('test-structured-prompting').addEventListener('click', () => {
+            document.getElementById('results').innerHTML = '';
+            testComponent('StructuredPromptingComponent');
+        });
+        
+        document.getElementById('test-agent-orchestration').addEventListener('click', () => {
+            document.getElementById('results').innerHTML = '';
+            testComponent('AgentOrchestrationComponent');
+        });
+        
+        // Run this when the page loads to make sure components are in global scope
+        window.addEventListener('DOMContentLoaded', ensureGlobalComponents);
+    </script>
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component Test Harness</title>
+    <link rel="stylesheet" href="../dist/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .test-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .test-result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 3px;
+        }
+        .success {
+            color: green;
+        }
+        .failure {
+            color: red;
+        }
+        .component-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Component Test Harness</h1>
+    <p>This page tests the loading and rendering of presentation components.</p>
+    
+    <div class="test-container">
+        <div class="test-title">Test 1: Component Registry Availability</div>
+        <button onclick="runRegistryTest()">Run Test</button>
+        <div id="registry-test-result" class="test-result"></div>
+    </div>
+    
+    <div class="test-container">
+        <div class="test-title">Test 2: Component Class Availability</div>
+        <select id="component-select">
+            <option value="">Select a component...</option>
+            <option value="PrototypingAttempts">PrototypingAttempts</option>
+            <option value="StructuredApproach">StructuredApproach</option>
+            <option value="DeepResearch">DeepResearch</option>
+            <option value="BusinessRequirements">BusinessRequirements</option>
+            <option value="UiUxDesign">UiUxDesign</option>
+            <option value="FormDesign">FormDesign</option>
+            <option value="ArchitectureDesign">ArchitectureDesign</option>
+            <option value="StateModel">StateModel</option>
+            <option value="ConsistencyCheck">ConsistencyCheck</option>
+            <option value="ProjectPlan">ProjectPlan</option>
+            <option value="AICodingTools">AICodingTools</option>
+            <option value="MCPServers">MCPServers</option>
+            <option value="TaskMaster">TaskMaster</option>
+            <option value="VibeCodingStart">VibeCodingStart</option>
+            <option value="Testing">Testing</option>
+            <option value="Documentation">Documentation</option>
+            <option value="Backups">Backups</option>
+            <option value="LiveDemo">LiveDemo</option>
+            <!-- Working components for comparison -->
+            <option value="IntroMain">IntroMain</option>
+            <option value="CreditRiskGoals">CreditRiskGoals</option>
+        </select>
+        <button onclick="checkComponentAvailability()">Check Availability</button>
+        <div id="component-test-result" class="test-result"></div>
+    </div>
+    
+    <div class="test-container">
+        <div class="test-title">Test 3: Component Rendering</div>
+        <select id="render-component-select">
+            <option value="">Select a component...</option>
+            <option value="PrototypingAttempts">PrototypingAttempts</option>
+            <option value="StructuredApproach">StructuredApproach</option>
+            <option value="DeepResearch">DeepResearch</option>
+            <option value="BusinessRequirements">BusinessRequirements</option>
+            <option value="UiUxDesign">UiUxDesign</option>
+            <option value="FormDesign">FormDesign</option>
+            <option value="ArchitectureDesign">ArchitectureDesign</option>
+            <option value="StateModel">StateModel</option>
+            <option value="ConsistencyCheck">ConsistencyCheck</option>
+            <option value="ProjectPlan">ProjectPlan</option>
+            <option value="AICodingTools">AICodingTools</option>
+            <option value="MCPServers">MCPServers</option>
+            <option value="TaskMaster">TaskMaster</option>
+            <option value="VibeCodingStart">VibeCodingStart</option>
+            <option value="Testing">Testing</option>
+            <option value="Documentation">Documentation</option>
+            <option value="Backups">Backups</option>
+            <option value="LiveDemo">LiveDemo</option>
+            <!-- Working components for comparison -->
+            <option value="IntroMain">IntroMain</option>
+            <option value="CreditRiskGoals">CreditRiskGoals</option>
+        </select>
+        <button onclick="renderComponent()">Render Component</button>
+        <div id="render-test-result" class="test-result"></div>
+        <div id="component-container" class="component-container"></div>
+    </div>
+    
+    <div class="test-container">
+        <div class="test-title">Test 4: Debug Component Loading</div>
+        <select id="debug-component-select">
+            <option value="">Select a component...</option>
+            <option value="PrototypingAttempts">PrototypingAttempts</option>
+            <option value="StructuredApproach">StructuredApproach</option>
+            <option value="DeepResearch">DeepResearch</option>
+            <option value="BusinessRequirements">BusinessRequirements</option>
+            <option value="UiUxDesign">UiUxDesign</option>
+            <option value="FormDesign">FormDesign</option>
+            <option value="ArchitectureDesign">ArchitectureDesign</option>
+            <option value="StateModel">StateModel</option>
+            <option value="ConsistencyCheck">ConsistencyCheck</option>
+            <option value="ProjectPlan">ProjectPlan</option>
+            <option value="AICodingTools">AICodingTools</option>
+            <option value="MCPServers">MCPServers</option>
+            <option value="TaskMaster">TaskMaster</option>
+            <option value="VibeCodingStart">VibeCodingStart</option>
+            <option value="Testing">Testing</option>
+            <option value="Documentation">Documentation</option>
+            <option value="Backups">Backups</option>
+            <option value="LiveDemo">LiveDemo</option>
+            <!-- Working components for comparison -->
+            <option value="IntroMain">IntroMain</option>
+            <option value="CreditRiskGoals">CreditRiskGoals</option>
+        </select>
+        <button onclick="debugComponentLoading()">Debug Loading</button>
+        <div id="debug-test-result" class="test-result"></div>
+        <pre id="debug-output"></pre>
+    </div>
+
+    <!-- Base Component first -->
+    <script src="../dist/js/BaseComponent.js"></script>
+    
+    <!-- Placeholder Component -->
+    <script src="../dist/js/components/PlaceholderComponent.js"></script>
+    
+    <!-- All Components before config -->
+    <script src="../dist/js/components/slides/IntroMainComponent.js"></script>
+    <script src="../dist/js/components/slides/AIPollComponent.js"></script>
+    <script src="../dist/js/components/slides/SuperwhisperDemoComponent.js"></script>
+    <script src="../dist/js/components/slides/AgenticWorldComponent.js"></script>
+    <script src="../dist/js/components/slides/CreditRiskGoalsComponent.js"></script>
+    <script src="../dist/js/components/slides/StructuredPromptingComponent.js"></script>
+    <script src="../dist/js/components/slides/PowerOfVoiceComponent.js"></script>
+    <script src="../dist/js/components/slides/RAGDemoComponent.js"></script>
+    <script src="../dist/js/components/slides/VoiceAgentsComponent.js"></script>
+    <script src="../dist/js/components/slides/AgentOrchestrationComponent.js"></script>
+    <script src="../dist/js/components/slides/OldVsNewComponent.js"></script>
+    <script src="../dist/js/components/slides/VibeCodingComponent.js"></script>
+    
+    <!-- Newly added prototyping components -->
+    <script src="../dist/js/components/slides/PrototypingAttemptsComponent.js"></script>
+    <script src="../dist/js/components/slides/StructuredApproachComponent.js"></script>
+    <script src="../dist/js/components/slides/DeepResearchComponent.js"></script>
+    <script src="../dist/js/components/slides/BusinessRequirementsComponent.js"></script>
+    <script src="../dist/js/components/slides/UiUxDesignComponent.js"></script>
+    <script src="../dist/js/components/slides/FormDesignComponent.js"></script>
+    <script src="../dist/js/components/slides/ArchitectureDesignComponent.js"></script>
+    <script src="../dist/js/components/slides/StateModelComponent.js"></script>
+    <script src="../dist/js/components/slides/ConsistencyCheckComponent.js"></script>
+    <script src="../dist/js/components/slides/ProjectPlanComponent.js"></script>
+    <script src="../dist/js/components/slides/AICodingToolsComponent.js"></script>
+    <script src="../dist/js/components/slides/MCPServersComponent.js"></script>
+    <script src="../dist/js/components/slides/TaskMasterComponent.js"></script>
+    <script src="../dist/js/components/slides/VibeCodingStartComponent.js"></script>
+    <script src="../dist/js/components/slides/TestingComponent.js"></script>
+    <script src="../dist/js/components/slides/DocumentationComponent.js"></script>
+    <script src="../dist/js/components/slides/BackupsComponent.js"></script>
+    <script src="../dist/js/components/slides/LiveDemoComponent.js"></script>
+    
+    <script src="../dist/js/components/slides/AIChallenge.js"></script>
+    <script src="../dist/js/components/slides/Resources.js"></script>
+    <script src="../dist/js/components/slides/FinalThought.js"></script>
+    
+    <!-- Component registry -->
+    <script src="../dist/js/components.js"></script>
+    
+    <!-- Test script -->
+    <script>
+        // Test 1: Check if component registry is available
+        function runRegistryTest() {
+            const resultDiv = document.getElementById('registry-test-result');
+            
+            try {
+                if (typeof componentRegistry !== 'undefined') {
+                    resultDiv.innerHTML = '<span class="success">SUCCESS: Component registry is available.</span>';
+                    
+                    // Check if registry has components
+                    const componentCount = Object.keys(componentRegistry.components).length;
+                    resultDiv.innerHTML += `<br>Found ${componentCount} registered components.`;
+                    
+                    // List all registered components
+                    resultDiv.innerHTML += '<br><br>Registered components:<br>';
+                    Object.keys(componentRegistry.components).forEach(key => {
+                        resultDiv.innerHTML += `- ${key}: ${componentRegistry.components[key].name}<br>`;
+                    });
+                } else {
+                    resultDiv.innerHTML = '<span class="failure">FAILURE: Component registry is not available.</span>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="failure">ERROR: ${error.message}</span>`;
+            }
+        }
+        
+        // Test 2: Check if specific component is available
+        function checkComponentAvailability() {
+            const componentName = document.getElementById('component-select').value;
+            const resultDiv = document.getElementById('component-test-result');
+            
+            if (!componentName) {
+                resultDiv.innerHTML = 'Please select a component to test.';
+                return;
+            }
+            
+            resultDiv.innerHTML = '';
+            
+            // Check in window object
+            if (window[componentName]) {
+                resultDiv.innerHTML += `<span class="success">Component "${componentName}" is available in window object.</span><br>`;
+            } else {
+                resultDiv.innerHTML += `<span class="failure">Component "${componentName}" is NOT available in window object.</span><br>`;
+            }
+            
+            // Check with Component suffix
+            if (window[componentName + 'Component']) {
+                resultDiv.innerHTML += `<span class="success">Component "${componentName}Component" is available in window object.</span><br>`;
+            } else {
+                resultDiv.innerHTML += `<span class="failure">Component "${componentName}Component" is NOT available in window object.</span><br>`;
+            }
+            
+            // Check in registry
+            if (componentRegistry.components[componentName]) {
+                resultDiv.innerHTML += `<span class="success">Component "${componentName}" is available in component registry.</span><br>`;
+            } else {
+                resultDiv.innerHTML += `<span class="failure">Component "${componentName}" is NOT available in component registry.</span><br>`;
+            }
+        }
+        
+        // Test 3: Render a component
+        function renderComponent() {
+            const componentName = document.getElementById('render-component-select').value;
+            const resultDiv = document.getElementById('render-test-result');
+            const containerDiv = document.getElementById('component-container');
+            
+            if (!componentName) {
+                resultDiv.innerHTML = 'Please select a component to render.';
+                containerDiv.innerHTML = '';
+                return;
+            }
+            
+            resultDiv.innerHTML = '';
+            containerDiv.innerHTML = '';
+            
+            try {
+                // Create a mock slide data object
+                const mockSlideData = {
+                    id: 'test-' + componentName.toLowerCase(),
+                    title: componentName,
+                    component: componentName
+                };
+                
+                // Try different ways to instantiate the component
+                let component = null;
+                
+                // Try from registry first
+                if (componentRegistry.components[componentName]) {
+                    component = componentRegistry.get(componentName, mockSlideData);
+                    resultDiv.innerHTML += `<span class="success">Component "${componentName}" created from registry.</span><br>`;
+                }
+                // Try direct instantiation with exact name
+                else if (window[componentName]) {
+                    const ComponentClass = window[componentName];
+                    component = new ComponentClass(mockSlideData);
+                    resultDiv.innerHTML += `<span class="success">Component "${componentName}" created directly.</span><br>`;
+                }
+                // Try with Component suffix
+                else if (window[componentName + 'Component']) {
+                    const ComponentClass = window[componentName + 'Component'];
+                    component = new ComponentClass(mockSlideData);
+                    resultDiv.innerHTML += `<span class="success">Component "${componentName}Component" created directly.</span><br>`;
+                }
+                // Fallback to placeholder
+                else {
+                    component = new PlaceholderComponent(mockSlideData);
+                    resultDiv.innerHTML += `<span class="failure">Component "${componentName}" not found, using placeholder.</span><br>`;
+                }
+                
+                // Render the component
+                if (component) {
+                    const content = component.render();
+                    containerDiv.innerHTML = content;
+                    
+                    // Initialize if available
+                    if (typeof component.initialize === 'function') {
+                        setTimeout(() => {
+                            component.initialize();
+                            resultDiv.innerHTML += 'Component initialized.<br>';
+                        }, 100);
+                    }
+                } else {
+                    resultDiv.innerHTML += '<span class="failure">Failed to create component.</span>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="failure">ERROR: ${error.message}</span>`;
+                console.error(error);
+            }
+        }
+        
+        // Test 4: Debug component loading
+        function debugComponentLoading() {
+            const componentName = document.getElementById('debug-component-select').value;
+            const resultDiv = document.getElementById('debug-test-result');
+            const debugOutput = document.getElementById('debug-output');
+            
+            if (!componentName) {
+                resultDiv.innerHTML = 'Please select a component to debug.';
+                debugOutput.textContent = '';
+                return;
+            }
+            
+            resultDiv.innerHTML = '';
+            debugOutput.textContent = '';
+            
+            const debug = {
+                componentName: componentName,
+                windowObjects: {},
+                registry: {},
+                constructorTests: {}
+            };
+            
+            // Check window object
+            debug.windowObjects.exactName = window[componentName] !== undefined;
+            debug.windowObjects.withComponentSuffix = window[componentName + 'Component'] !== undefined;
+            
+            // Check registry
+            debug.registry.isRegistered = componentRegistry.components[componentName] !== undefined;
+            if (debug.registry.isRegistered) {
+                debug.registry.className = componentRegistry.components[componentName].name;
+            }
+            
+            // Test constructors
+            try {
+                if (window[componentName]) {
+                    const instance = new window[componentName]({});
+                    debug.constructorTests.exactName = {
+                        success: true,
+                        type: typeof instance,
+                        isBaseComponent: instance instanceof BaseComponent
+                    };
+                }
+            } catch (error) {
+                debug.constructorTests.exactName = {
+                    success: false,
+                    error: error.message
+                };
+            }
+            
+            try {
+                if (window[componentName + 'Component']) {
+                    const instance = new window[componentName + 'Component']({});
+                    debug.constructorTests.withComponentSuffix = {
+                        success: true,
+                        type: typeof instance,
+                        isBaseComponent: instance instanceof BaseComponent
+                    };
+                }
+            } catch (error) {
+                debug.constructorTests.withComponentSuffix = {
+                    success: false,
+                    error: error.message
+                };
+            }
+            
+            // Check how presentation.js would load this component
+            debug.presentationLoading = {
+                step1: 'Try component registry',
+                registry: debug.registry.isRegistered,
+                step2: 'Try exact name in window',
+                exactName: debug.windowObjects.exactName,
+                step3: 'Try with Component suffix',
+                withSuffix: debug.windowObjects.withComponentSuffix,
+                conclusion: debug.registry.isRegistered ? 'Would use registry' : 
+                            debug.windowObjects.exactName ? 'Would use exact name' :
+                            debug.windowObjects.withComponentSuffix ? 'Would use name with Component suffix' :
+                            'Would fall back to PlaceholderComponent'
+            };
+            
+            // Output debug information
+            debugOutput.textContent = JSON.stringify(debug, null, 2);
+            
+            // Summary
+            if (debug.registry.isRegistered || debug.windowObjects.exactName || debug.windowObjects.withComponentSuffix) {
+                resultDiv.innerHTML = '<span class="success">Component can be loaded in at least one way.</span>';
+            } else {
+                resultDiv.innerHTML = '<span class="failure">Component cannot be loaded by any method.</span>';
+            }
+        }
+    </script>
+</body>
+</html>

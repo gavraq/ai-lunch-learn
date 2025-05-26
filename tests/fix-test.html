@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component Fix Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .failure {
+            color: red;
+            font-weight: bold;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f5f5f5;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Component Fix Test</h1>
+    <p>This page tests whether components are properly registered in the global scope.</p>
+    
+    <button id="run-test">Run Test</button>
+    <button id="apply-fix">Apply Fix</button>
+    <button id="test-presentation">Test Presentation</button>
+    
+    <div id="results"></div>
+    
+    <!-- Load all necessary scripts in the correct order -->
+    <!-- First load base utilities and components -->
+    <script src="../dist/js/utils.js"></script>
+    <script src="../dist/js/components/BaseComponent.js"></script>
+    <script src="../dist/js/components/PlaceholderComponent.js"></script>
+    
+    <!-- Load all component files before the registry -->
+    <script src="../dist/js/components/slides/IntroMainComponent.js"></script>
+    <script src="../dist/js/components/slides/AIPollComponent.js"></script>
+    <script src="../dist/js/components/slides/SuperwhisperDemoComponent.js"></script>
+    <script src="../dist/js/components/slides/AgenticWorldComponent.js"></script>
+    <script src="../dist/js/components/slides/CreditRiskGoalsComponent.js"></script>
+    <script src="../dist/js/components/slides/StructuredPromptingComponent.js"></script>
+    <script src="../dist/js/components/slides/PowerOfVoiceComponent.js"></script>
+    <script src="../dist/js/components/slides/RAGDemoComponent.js"></script>
+    <script src="../dist/js/components/slides/VoiceAgentsComponent.js"></script>
+    <script src="../dist/js/components/slides/AgentOrchestrationComponent.js"></script>
+    
+    <!-- Load the component registry -->
+    <script src="../dist/js/components.js"></script>
+    
+    <!-- Load the component fixer -->
+    <script src="./fix-components.js"></script>
+    
+    <script>
+        // Function to log results
+        function log(message, isSuccess = true) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = 'test-result';
+            div.innerHTML = isSuccess ? 
+                `<span class="success">✓</span> ${message}` : 
+                `<span class="failure">✗</span> ${message}`;
+            results.appendChild(div);
+        }
+        
+        // Function to test if a component is available
+        function testComponent(name) {
+            if (typeof window[name] === 'function') {
+                log(`${name} is available in global scope`);
+                return true;
+            } else {
+                log(`${name} is NOT available in global scope`, false);
+                return false;
+            }
+        }
+        
+        // Function to run all tests
+        function runTests() {
+            document.getElementById('results').innerHTML = '';
+            log('Starting component tests...');
+            
+            // Test base components
+            testComponent('BaseComponent');
+            testComponent('PlaceholderComponent');
+            
+            // Test specific components
+            testComponent('StructuredPromptingComponent');
+            testComponent('AgentOrchestrationComponent');
+            
+            // Test component registry
+            if (window.componentRegistry && window.componentRegistry.components) {
+                log(`Component registry found with ${Object.keys(window.componentRegistry.components).length} components`);
+                
+                // Test a few registry lookups
+                const testSlide = { id: 'test', title: 'Test' };
+                const structuredPrompting = window.componentRegistry.get('StructuredPrompting', testSlide);
+                if (structuredPrompting) {
+                    log('Successfully retrieved StructuredPrompting from registry');
+                } else {
+                    log('Failed to retrieve StructuredPrompting from registry', false);
+                }
+                
+                const agentOrchestration = window.componentRegistry.get('AgentOrchestration', testSlide);
+                if (agentOrchestration) {
+                    log('Successfully retrieved AgentOrchestration from registry');
+                } else {
+                    log('Failed to retrieve AgentOrchestration from registry', false);
+                }
+            } else {
+                log('Component registry not found', false);
+            }
+        }
+        
+        // Set up event listeners
+        document.getElementById('run-test').addEventListener('click', runTests);
+        
+        document.getElementById('apply-fix').addEventListener('click', () => {
+            log('Applying component fix...');
+            window.fixAllComponents();
+            log('Fix applied, running tests again...');
+            runTests();
+        });
+        
+        document.getElementById('test-presentation').addEventListener('click', () => {
+            window.location.href = '../dist/index.html';
+        });
+        
+        // Run tests on page load
+        document.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html>

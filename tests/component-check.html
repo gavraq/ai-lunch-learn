@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component Check</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .component-status {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .available {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .not-available {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+    </style>
+</head>
+<body>
+    <h1>Component Availability Check</h1>
+    <div id="component-list"></div>
+
+    <!-- Load all necessary scripts in the correct order -->
+    <!-- First load base utilities and components -->
+    <script src="../dist/js/utils.js"></script>
+    <script src="../dist/js/components/BaseComponent.js"></script>
+    <script src="../dist/js/components/PlaceholderComponent.js"></script>
+    
+    <!-- Load all component files before the registry -->
+    <script src="../dist/js/components/slides/IntroMainComponent.js"></script>
+    <script src="../dist/js/components/slides/AIPollComponent.js"></script>
+    <script src="../dist/js/components/slides/SuperwhisperDemoComponent.js"></script>
+    <script src="../dist/js/components/slides/AgenticWorldComponent.js"></script>
+    <script src="../dist/js/components/slides/CreditRiskGoalsComponent.js"></script>
+    <script src="../dist/js/components/slides/StructuredPromptingComponent.js"></script>
+    <script src="../dist/js/components/slides/PowerOfVoiceComponent.js"></script>
+    <script src="../dist/js/components/slides/RAGDemoComponent.js"></script>
+    <script src="../dist/js/components/slides/VoiceAgentsComponent.js"></script>
+    <script src="../dist/js/components/slides/AgentOrchestrationComponent.js"></script>
+    
+    <!-- Load the component registry last -->
+    <script src="../dist/js/components.js"></script>
+    
+    <script>
+        // List of components to check
+        const componentsToCheck = [
+            'BaseComponent',
+            'PlaceholderComponent',
+            'IntroMainComponent',
+            'AIPollComponent',
+            'SuperwhisperDemoComponent',
+            'AgenticWorldComponent',
+            'CreditRiskGoalsComponent',
+            'StructuredPromptingComponent',
+            'PowerOfVoiceComponent',
+            'RAGDemoComponent',
+            'VoiceAgentsComponent',
+            'AgentOrchestrationComponent'
+        ];
+        
+        // Check if each component is available in the global scope
+        function checkComponents() {
+            const componentList = document.getElementById('component-list');
+            
+            // Add a header with the current timestamp
+            const header = document.createElement('h3');
+            header.textContent = `Check performed at: ${new Date().toLocaleTimeString()}`;
+            componentList.appendChild(header);
+            
+            // Check each component
+            componentsToCheck.forEach(componentName => {
+                const div = document.createElement('div');
+                div.className = 'component-status';
+                
+                if (typeof window[componentName] === 'function') {
+                    div.className += ' available';
+                    div.innerHTML = `✅ <strong>${componentName}</strong>: Available in global scope`;
+                    
+                    // Check if it extends BaseComponent
+                    try {
+                        const instance = new window[componentName]({});
+                        if (instance instanceof BaseComponent) {
+                            div.innerHTML += ' (extends BaseComponent)';
+                        } else {
+                            div.innerHTML += ' (does NOT extend BaseComponent)';
+                        }
+                    } catch (error) {
+                        div.innerHTML += ` (Error creating instance: ${error.message})`;
+                    }
+                } else {
+                    div.className += ' not-available';
+                    div.innerHTML = `❌ <strong>${componentName}</strong>: Not available in global scope`;
+                }
+                
+                componentList.appendChild(div);
+            });
+            
+            // Check component registry
+            const registryDiv = document.createElement('div');
+            registryDiv.className = 'component-status';
+            
+            if (window.componentRegistry) {
+                registryDiv.className += ' available';
+                registryDiv.innerHTML = `✅ <strong>componentRegistry</strong>: Available with ${Object.keys(window.componentRegistry.components).length} registered components`;
+                
+                // List all registered components
+                const registeredList = document.createElement('ul');
+                Object.keys(window.componentRegistry.components).forEach(name => {
+                    const li = document.createElement('li');
+                    li.textContent = name;
+                    registeredList.appendChild(li);
+                });
+                
+                registryDiv.appendChild(registeredList);
+            } else {
+                registryDiv.className += ' not-available';
+                registryDiv.innerHTML = '❌ <strong>componentRegistry</strong>: Not available in global scope';
+            }
+            
+            componentList.appendChild(registryDiv);
+        }
+        
+        // Run the check when the page loads
+        window.addEventListener('DOMContentLoaded', checkComponents);
+        
+        // Add a button to refresh the check
+        const refreshButton = document.createElement('button');
+        refreshButton.textContent = 'Refresh Check';
+        refreshButton.style.margin = '20px 0';
+        refreshButton.style.padding = '10px';
+        refreshButton.addEventListener('click', () => {
+            document.getElementById('component-list').innerHTML = '';
+            checkComponents();
+        });
+        
+        document.body.insertBefore(refreshButton, document.getElementById('component-list'));
+    </script>
+</body>
+</html>
