@@ -27,7 +27,7 @@ class SuperwhisperDemoComponent extends BaseComponent {
                         <i class="fas fa-play"></i> Play Demo
                     </button>
                 </div>
-                <img src="/superwhisper.jpeg" alt="Superwhisper Demo" class="demo-image" style="width: 100%; max-width: 800px;">
+                <img src="/dist/assets/images/superwhisper.jpeg" alt="Superwhisper Demo" class="demo-image" style="width: 100%; max-width: 800px;">
             </div>
         `;
         
