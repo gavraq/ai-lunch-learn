@@ -10,14 +10,14 @@ class StructuredPromptingComponent extends BaseComponent {
     
     createContent() {
         const container = document.createElement('div');
-        container.className = 'structured-prompting-container';
+        container.style.cssText = 'max-width: 1200px; margin: 0 auto; padding: 0 1rem; font-family: "Inter", sans-serif;';
         
         // Introduction
         const intro = document.createElement('div');
-        intro.className = 'intro mb-lg';
+        intro.style.cssText = 'margin-bottom: 1.5rem; text-align: center;';
         
         const introText = document.createElement('p');
-        introText.className = 'large-text';
+        introText.style.cssText = 'font-size: 1.25rem; font-weight: 500; color: #4A5568; margin: 0;';
         introText.textContent = "Let's explore how structured prompting can dramatically improve your AI interactions.";
         intro.appendChild(introText);
         
@@ -25,13 +25,15 @@ class StructuredPromptingComponent extends BaseComponent {
         
         // Scenario
         const scenario = document.createElement('div');
-        scenario.className = 'scenario mb-lg';
+        scenario.style.cssText = 'background-color: #e6edf7; border-radius: 0.5rem; padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid #0c4da2;';
         
         const scenarioTitle = document.createElement('h3');
+        scenarioTitle.style.cssText = 'font-size: 1.125rem; font-weight: 600; color: #0c4da2; margin-top: 0; margin-bottom: 0.5rem;';
         scenarioTitle.textContent = 'Scenario: Creating a Business Requirements Document';
         scenario.appendChild(scenarioTitle);
         
         const scenarioText = document.createElement('p');
+        scenarioText.style.cssText = 'font-size: 1rem; color: #323F4B; margin: 0;';
         scenarioText.textContent = 'You need to create a Business Requirements Document (BRD) for a new credit risk workflow system.';
         scenario.appendChild(scenarioText);
         
@@ -39,35 +41,31 @@ class StructuredPromptingComponent extends BaseComponent {
         
         // Prompts Comparison
         const promptsComparison = document.createElement('div');
-        promptsComparison.className = 'prompts-comparison mb-lg';
+        promptsComparison.style.cssText = 'margin-bottom: 2rem; display: flex; flex-direction: column; gap: 1.5rem;';
         
-        const twoCol = document.createElement('div');
-        twoCol.className = 'two-col';
-        
-        // Bad Prompt Column
-        const badColumn = document.createElement('div');
-        badColumn.className = 'column';
-        
+        // Bad Prompt Section
         const badPrompt = document.createElement('div');
-        badPrompt.className = 'bad-prompt';
+        badPrompt.style.cssText = 'background-color: #fde8eb; border-radius: 0.5rem; border: 1px solid #e31937; padding: 1.5rem; width: 100%;';
         
         const badTitle = document.createElement('h3');
-        badTitle.innerHTML = '<i class="fas fa-times-circle" style="color: var(--error);"></i> Bad Prompt';
+        badTitle.style.cssText = 'font-size: 1.125rem; font-weight: 600; color: #e31937; margin-top: 0; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;';
+        badTitle.innerHTML = '<i class="fas fa-times-circle"></i> Bad Prompt';
         badPrompt.appendChild(badTitle);
         
         const badCode = document.createElement('pre');
-        badCode.className = 'code-block';
+        badCode.style.cssText = 'background-color: #ffffff; border-radius: 0.375rem; padding: 1rem; font-family: monospace; font-size: 1rem; margin-bottom: 1rem; border: 1px solid #E4E7EB; text-align: center; white-space: pre-wrap; word-break: break-word;';
         badCode.textContent = '"Write a BRD for a credit risk workflow system"';
         badPrompt.appendChild(badCode);
         
         const promptIssues = document.createElement('div');
-        promptIssues.className = 'prompt-issues';
         
         const issuesTitle = document.createElement('h4');
+        issuesTitle.style.cssText = 'font-size: 1rem; font-weight: 600; color: #323F4B; margin-top: 0; margin-bottom: 0.5rem;';
         issuesTitle.textContent = 'Issues:';
         promptIssues.appendChild(issuesTitle);
         
         const issuesList = document.createElement('ul');
+        issuesList.style.cssText = 'margin-top: 0.5rem; padding-left: 1.5rem;';
         const issues = [
             'Lacks specific context about your organization',
             'No information about intended users or stakeholders',
@@ -78,97 +76,99 @@ class StructuredPromptingComponent extends BaseComponent {
         
         issues.forEach(issue => {
             const li = document.createElement('li');
+            li.style.cssText = 'margin-bottom: 0.5rem; color: #4A5568;';
             li.textContent = issue;
             issuesList.appendChild(li);
         });
         
         promptIssues.appendChild(issuesList);
         badPrompt.appendChild(promptIssues);
-        badColumn.appendChild(badPrompt);
+        promptsComparison.appendChild(badPrompt);
         
-        // Good Prompt Column
-        const goodColumn = document.createElement('div');
-        goodColumn.className = 'column';
-        
+        // Good Prompt Section
         const goodPrompt = document.createElement('div');
-        goodPrompt.className = 'good-prompt';
+        goodPrompt.style.cssText = 'background-color: #f0fff4; border-radius: 0.5rem; border: 1px solid #38B2AC; padding: 1.5rem; width: 100%;';
         
         const goodTitle = document.createElement('h3');
-        goodTitle.innerHTML = '<i class="fas fa-check-circle" style="color: var(--success);"></i> Good Prompt';
+        goodTitle.style.cssText = 'font-size: 1.125rem; font-weight: 600; color: #38B2AC; margin-top: 0; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;';
+        goodTitle.innerHTML = '<i class="fas fa-check-circle"></i> Good Prompt';
         goodPrompt.appendChild(goodTitle);
         
         const goodCode = document.createElement('pre');
-        goodCode.className = 'code-block';
+        goodCode.style.cssText = 'background-color: #ffffff; border-radius: 0.375rem; padding: 1.5rem; font-family: monospace; font-size: 0.9rem; margin-bottom: 1rem; border: 1px solid #E4E7EB; max-height: 350px; overflow-y: auto; line-height: 1.5; white-space: pre-wrap; word-break: break-word;';
         goodCode.innerHTML = `&lt;context&gt;
-  I work at Standard Bank, a large financial institution in South Africa.
-  We need to create a new credit risk workflow system to streamline
-  our credit approval process for corporate clients.
+I work at ICBC Standard Bank, a large financial institution. We need to create a new credit risk workflow system to streamline our credit approval process.
+Current Process: Currently use email of files and approvals through 5 different stakeholders
+Pain points: Lost emails, version control issues, no audit trail
 &lt;/context&gt;
 
 &lt;task&gt;
-  Create a Business Requirements Document (BRD) for this system.
+Create a comprehensive Business Requirements Document for a new Credit Risk Workflow System
+Ask me questions to help fill out any gaps.
 &lt;/task&gt;
 
-&lt;audience&gt;
-  The document will be reviewed by IT leadership, credit risk officers,
-  and business stakeholders.
-&lt;/audience&gt;
-
 &lt;requirements&gt;
-  - Must include user stories for relationship managers, credit analysts,
-    and credit committee members
-  - Must integrate with our existing CRM system (Salesforce)
-  - Must comply with Basel III regulatory requirements
-  - Must support workflow for credit requests from R5M to R500M
+- Executive summary (max 200 words)
+- Current state analysis with process flow
+- Future state vision with measurable benefits
+- Functional requirements (categorized by priority)
+- Non-functional requirements (performance, security, audit)
+- Success metrics and KPIs
 &lt;/requirements&gt;
 
 &lt;format&gt;
-  Use a formal BRD template with executive summary, scope, functional
-  requirements, non-functional requirements, and success criteria.
-&lt;/format&gt;`;
+- Use numbered sections with clear headings
+- Include a requirements traceability matrix
+- Add diagrams using mermaid syntax for process flows
+- Create user stories in "As a... I want... So that..." format
+&lt;/format&gt;
+
+&lt;stakeholders&gt;
+Front Office Relationship Manager, Senior Business Sponsors, Credit Risk Analysts, Credit Approvers, Legal, IT
+&lt;/stakeholders&gt;`;
         goodPrompt.appendChild(goodCode);
         
         const promptBenefits = document.createElement('div');
-        promptBenefits.className = 'prompt-benefits';
         
         const benefitsTitle = document.createElement('h4');
+        benefitsTitle.style.cssText = 'font-size: 1rem; font-weight: 600; color: #323F4B; margin-top: 0; margin-bottom: 0.5rem;';
         benefitsTitle.textContent = 'Benefits:';
         promptBenefits.appendChild(benefitsTitle);
         
         const benefitsList = document.createElement('ul');
+        benefitsList.style.cssText = 'margin-top: 0.5rem; padding-left: 1.5rem;';
         const benefits = [
             'Clear XML-like structure makes intent explicit',
-            'Provides specific organizational context',
-            'Identifies the audience for appropriate tone/detail',
-            'Lists specific requirements and constraints',
-            'Specifies desired format and structure'
+            'Provides specific context including current pain points',
+            'Identifies all relevant stakeholders',
+            'Specifies detailed document requirements and structure',
+            'Includes format guidance with specific diagram syntax'
         ];
         
         benefits.forEach(benefit => {
             const li = document.createElement('li');
+            li.style.cssText = 'margin-bottom: 0.5rem; color: #4A5568;';
             li.textContent = benefit;
             benefitsList.appendChild(li);
         });
         
         promptBenefits.appendChild(benefitsList);
         goodPrompt.appendChild(promptBenefits);
-        goodColumn.appendChild(goodPrompt);
-        
-        twoCol.appendChild(badColumn);
-        twoCol.appendChild(goodColumn);
-        promptsComparison.appendChild(twoCol);
+        promptsComparison.appendChild(goodPrompt);
         
         container.appendChild(promptsComparison);
         
         // Best Practices
         const bestPractices = document.createElement('div');
-        bestPractices.className = 'best-practices mb-lg';
+        bestPractices.style.cssText = 'background-color: #ffffff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid #E4E7EB;';
         
         const practicesTitle = document.createElement('h3');
+        practicesTitle.style.cssText = 'font-size: 1.125rem; font-weight: 600; color: #0c4da2; margin-top: 0; margin-bottom: 1rem;';
         practicesTitle.textContent = 'Structured Prompting Best Practices';
         bestPractices.appendChild(practicesTitle);
         
         const practicesList = document.createElement('ul');
+        practicesList.style.cssText = 'margin-top: 0; padding-left: 1.5rem; columns: 2; column-gap: 2rem;';
         const practices = [
             'Use XML-like tags to separate different parts of your prompt',
             'Provide relevant context about your organization and situation',
@@ -179,6 +179,7 @@ class StructuredPromptingComponent extends BaseComponent {
         
         practices.forEach(practice => {
             const li = document.createElement('li');
+            li.style.cssText = 'margin-bottom: 0.75rem; color: #4A5568; break-inside: avoid;';
             li.textContent = practice;
             practicesList.appendChild(li);
         });
@@ -188,9 +189,10 @@ class StructuredPromptingComponent extends BaseComponent {
         
         // Conclusion
         const conclusion = document.createElement('div');
-        conclusion.className = 'conclusion';
+        conclusion.style.cssText = 'background-color: #e6edf7; border-radius: 0.5rem; padding: 1rem 1.5rem; text-align: center;';
         
         const conclusionText = document.createElement('p');
+        conclusionText.style.cssText = 'font-size: 1.125rem; font-weight: 500; color: #0c4da2; margin: 0;';
         conclusionText.textContent = 'Structured prompting is one of the most effective ways to improve your results with AI. Start using it today!';
         conclusion.appendChild(conclusionText);
         
