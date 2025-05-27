@@ -9,111 +9,114 @@ class SuperwhisperDemoComponent extends BaseComponent {
         intro.innerHTML = "Let's start with something simple... can you improve your efficiency by using AI to transcribe instead of having to write? Here's an example of an app called Superwhisper that can help you do that:";
         container.appendChild(intro);
         
-        // Demo card
-        const demoCard = this.createCard('Superwhisper Demo', null);
-        demoCard.className = 'card demo-card mb-lg';
+        // Transcription Box
+        const transcriptionBox = document.createElement('div');
+        transcriptionBox.className = 'transcription-box mb-lg';
+        transcriptionBox.style.border = '1px solid #ddd';
+        transcriptionBox.style.borderRadius = '4px';
+        transcriptionBox.style.padding = '15px';
+        transcriptionBox.style.marginBottom = '20px';
+        transcriptionBox.style.backgroundColor = '#f9f9f9';
         
-        // Demo content
-        const demoContent = document.createElement('div');
-        demoContent.className = 'demo-content';
+        const boxTitle = document.createElement('h3');
+        boxTitle.textContent = 'Transcription Box';
+        boxTitle.style.marginTop = '0';
+        transcriptionBox.appendChild(boxTitle);
         
-        // Video placeholder (in a real implementation, this would be a video or interactive demo)
-        const videoPlaceholder = document.createElement('div');
-        videoPlaceholder.className = 'video-placeholder';
-        videoPlaceholder.innerHTML = `
-            <div class="video-container">
-                <div class="video-overlay flex items-center justify-center">
-                    <button class="btn btn-primary play-btn">
-                        <i class="fas fa-play"></i> Play Demo
-                    </button>
-                </div>
-                <img src="assets/images/superwhisper.jpeg" alt="Superwhisper Demo" class="demo-image" style="width: 100%; max-width: 800px;">
-            </div>
-        `;
+        const boxDescription = document.createElement('p');
+        boxDescription.textContent = 'Speak into Superwhisper and your transcribed text will appear here:';
+        boxDescription.style.fontSize = '14px';
+        boxDescription.style.color = '#666';
+        transcriptionBox.appendChild(boxDescription);
         
-        // Demo features
-        const features = document.createElement('div');
-        features.className = 'features mt-lg';
-        features.innerHTML = `
-            <h3>Key Features:</h3>
-            <ul>
-                <li>Automatic transcription of voice to text</li>
-                <li>Removes filler words like "um" and "ah"</li>
-                <li>Formats text with proper punctuation and paragraphs</li>
-                <li>Works with multiple speakers</li>
-                <li>Exports to various formats (Word, PDF, plain text)</li>
-            </ul>
-        `;
+        const textArea = document.createElement('div');
+        textArea.style.height = '100px';
+        textArea.style.backgroundColor = '#f1f1f1';
+        textArea.style.border = '1px solid #ddd';
+        textArea.style.borderRadius = '4px';
+        textArea.style.marginTop = '10px';
+        transcriptionBox.appendChild(textArea);
         
-        demoContent.appendChild(videoPlaceholder);
-        demoContent.appendChild(features);
-        demoCard.appendChild(demoContent);
-        container.appendChild(demoCard);
+        container.appendChild(transcriptionBox);
         
-        // Benefits section
-        const benefits = document.createElement('div');
-        benefits.className = 'benefits mt-lg';
+        // Feature boxes container - using flex to align them side by side
+        const boxesContainer = document.createElement('div');
+        boxesContainer.style.display = 'flex';
+        boxesContainer.style.gap = '20px';
+        boxesContainer.style.marginBottom = '20px';
+        
+        // Key Features Box
+        const featuresBox = document.createElement('div');
+        featuresBox.style.flex = '1';
+        featuresBox.style.border = '1px solid #0056b3';
+        featuresBox.style.borderRadius = '4px';
+        featuresBox.style.padding = '15px';
+        featuresBox.style.backgroundColor = '#f0f7ff';
+        
+        const featuresTitle = document.createElement('h3');
+        featuresTitle.textContent = 'Key Features';
+        featuresTitle.style.marginTop = '0';
+        featuresTitle.style.color = '#0056b3';
+        featuresBox.appendChild(featuresTitle);
+        
+        const featuresList = document.createElement('ul');
+        featuresList.style.paddingLeft = '20px';
+        featuresList.style.margin = '10px 0';
+        
+        const features = [
+            'Automatic transcription of voice to text',
+            'Removes filler words like "um" and "ah"',
+            'Formats text with proper punctuation',
+            'Works with multiple speakers',
+            'Exports to various formats'
+        ];
+        
+        features.forEach(feature => {
+            const listItem = document.createElement('li');
+            listItem.textContent = feature;
+            featuresList.appendChild(listItem);
+        });
+        
+        featuresBox.appendChild(featuresList);
+        boxesContainer.appendChild(featuresBox);
+        
+        // Benefits Box
+        const benefitsBox = document.createElement('div');
+        benefitsBox.style.flex = '1';
+        benefitsBox.style.border = '1px solid #28a745';
+        benefitsBox.style.borderRadius = '4px';
+        benefitsBox.style.padding = '15px';
+        benefitsBox.style.backgroundColor = '#f0fff4';
         
         const benefitsTitle = document.createElement('h3');
-        benefitsTitle.textContent = 'Benefits for Risk Change and Risk IT Teams:';
-        benefits.appendChild(benefitsTitle);
+        benefitsTitle.textContent = 'Benefits for Risk Teams';
+        benefitsTitle.style.marginTop = '0';
+        benefitsTitle.style.color = '#28a745';
+        benefitsBox.appendChild(benefitsTitle);
         
-        const benefitsList = this.createList([
-            'Capture meeting notes without manual typing',
-            'Focus on the discussion instead of note-taking',
+        const benefitsList = document.createElement('ul');
+        benefitsList.style.paddingLeft = '20px';
+        benefitsList.style.margin = '10px 0';
+        
+        const benefits = [
+            'Capture meeting notes without typing',
+            'Focus on discussion instead of note-taking',
             'Create documentation faster',
-            'Easily share meeting outcomes with team members',
-            'Improve productivity for requirements gathering sessions'
-        ]);
-        benefits.appendChild(benefitsList);
-        container.appendChild(benefits);
+            'Easily share meeting outcomes',
+            'Improve requirements gathering'
+        ];
         
-        // Add event listener for the play button
-        setTimeout(() => {
-            const playBtn = container.querySelector('.play-btn');
-            if (playBtn) {
-                playBtn.addEventListener('click', this.playDemo.bind(this));
-            }
-        }, 0);
+        benefits.forEach(benefit => {
+            const listItem = document.createElement('li');
+            listItem.textContent = benefit;
+            benefitsList.appendChild(listItem);
+        });
+        
+        benefitsBox.appendChild(benefitsList);
+        boxesContainer.appendChild(benefitsBox);
+        
+        container.appendChild(boxesContainer);
         
         return container;
-    }
-    
-    playDemo() {
-        // In a real implementation, this would play a video or show an interactive demo
-        const videoOverlay = document.querySelector('.video-overlay');
-        const demoImage = document.querySelector('.demo-image');
-        const container = demoImage.parentElement;
-        
-        if (videoOverlay && demoImage) {
-            videoOverlay.style.display = 'none';
-            
-            // Create a demo sequence with text overlays instead of changing the image
-            const textOverlay = document.createElement('div');
-            textOverlay.className = 'text-overlay';
-            textOverlay.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: white; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; font-size: 18px;';
-            textOverlay.innerHTML = '<div>Demo Playing...</div>';
-            container.appendChild(textOverlay);
-            
-            // Simulate a demo with changing text overlays
-            setTimeout(() => {
-                textOverlay.innerHTML = '<div>Speaking: "Meeting about credit risk..."</div>';
-            }, 2000);
-            
-            setTimeout(() => {
-                textOverlay.innerHTML = '<div>Transcribing...</div>';
-            }, 4000);
-            
-            setTimeout(() => {
-                textOverlay.innerHTML = '<div>Transcript: "Meeting about credit risk workflow improvements. We need to streamline the approval process."</div>';
-            }, 6000);
-            
-            // Remove overlay after demo completes
-            setTimeout(() => {
-                textOverlay.style.opacity = '0';
-                textOverlay.style.transition = 'opacity 1s';
-                setTimeout(() => textOverlay.remove(), 1000);
-            }, 9000);
-        }
     }
 }
