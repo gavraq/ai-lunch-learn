@@ -114,7 +114,6 @@ function registerComponents() {
     
     // AI for Risk section components
     componentRegistry.register('CreditRiskGoalsComponent', CreditRiskGoalsComponent);
-    componentRegistry.register('AIPromptingHeaderComponent', AIPromptingHeaderComponent);
     componentRegistry.register('StructuredPromptingComponent', StructuredPromptingComponent);
     componentRegistry.register('PowerOfVoiceComponent', PowerOfVoiceComponent);
     

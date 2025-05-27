@@ -8,18 +8,23 @@ const presentationConfig = {
             title: "Introduction",
             slides: [
                 {
+                    id: "intro-main",
+                    title: "We are still very early in the AI Revolution but this is changing rapidly",
+                    component: "IntroMainComponent"
+                },
+                {
                     id: "poll",
-                    title: "Poll on AI usage",
+                    title: "Interactive Poll",
                     component: "AIPollComponent"
                 },
                 {
                     id: "superwhisper",
-                    title: "Superwhisper demo",
+                    title: "Superwhisper Demo",
                     component: "SuperwhisperDemoComponent"
                 },
                 {
                     id: "agentic-world",
-                    title: "What could AI look like in the future? - An Agentic World",
+                    title: "What could the future of AI in the workplace look like?",
                     component: "AgenticWorldComponent"
                 }
             ]
@@ -32,11 +37,6 @@ const presentationConfig = {
                     id: "credit-risk-goals",
                     title: "What are Credit Risk trying to achieve?",
                     component: "CreditRiskGoalsComponent"
-                },
-                {
-                    id: "ai-prompting-header",
-                    title: "Part 1: Level Up Your AI Prompting Game",
-                    component: "AIPromptingHeaderComponent"
                 },
                 {
                     id: "structured-prompting",
@@ -52,7 +52,7 @@ const presentationConfig = {
         },
         {
             id: "prototyping",
-            title: "Part 2: Prototyping a new approach - Credit Risk Workflow Example",
+            title: "Prototyping a new approach - Credit Risk Workflow Example",
             slides: [
                 {
                     id: "old-vs-new",
@@ -61,12 +61,12 @@ const presentationConfig = {
                 },
                 {
                     id: "vibe-coding",
-                    title: "Vibe coding might be the future of prototyping",
+                    title: "Vibe Coding",
                     component: "VibeCodingComponent"
                 },
                 {
                     id: "prototyping-attempts",
-                    title: "My Three Prototyping Attempts and lessons learned",
+                    title: "Prototyping Attempts",
                     component: "PrototypingAttemptsComponent"
                 },
                 {
@@ -146,7 +146,7 @@ const presentationConfig = {
                 },
                 {
                     id: "backups",
-                    title: "Step 15: Regular Backups",
+                    title: "Step 15: Regular backups",
                     component: "BackupsComponent"
                 },
                 {
@@ -158,7 +158,7 @@ const presentationConfig = {
         },
         {
             id: "institutional-memory",
-            title: "Part 3: Building Institutional Memory: Retrieval Augmented Generation (RAG)",
+            title: "Building Institutional Memory",
             slides: [
                 {
                     id: "rag-demo",
@@ -168,8 +168,8 @@ const presentationConfig = {
             ]
         },
         {
-            id: "next-level-agents",
-            title: "Part 4: Next Level Agents using voice",
+            id: "next-level",
+            title: "Next Level Agents using voice",
             slides: [
                 {
                     id: "voice-agents",
@@ -180,10 +180,10 @@ const presentationConfig = {
         },
         {
             id: "agent-orchestration",
-            title: "Part 5: Agent Orchestration",
+            title: "Agent Orchestration",
             slides: [
                 {
-                    id: "agent-orchestration",
+                    id: "orchestration",
                     title: "Agent Orchestration",
                     component: "AgentOrchestrationComponent"
                 }
@@ -202,13 +202,7 @@ const presentationConfig = {
                     id: "resources",
                     title: "Resources for Continuous Learning",
                     component: "ResourcesComponent"
-                }
-            ]
-        },
-        {
-            id: "final-thought",
-            title: "Final Thought",
-            slides: [
+                },
                 {
                     id: "final-thought",
                     title: "Final Thought",

@@ -100,17 +100,23 @@ class Presentation {
         
         // Check if this slide has a component
         if (currentSlide.component) {
-            console.log('Loading component:', currentSlide.component);
+            console.log('Looking for component:', currentSlide.component);
+            console.log('Available components in window:', Object.keys(window).filter(key => key.includes('Component')));
+            console.log('Is IntroMainComponent defined in window?', window.IntroMainComponent !== undefined);
+            console.log('Component registry contains:', window.componentRegistry ? window.componentRegistry.getComponentNames() : 'Registry not available');
             
             try {
                 // Use the component registry to get the component
-                if (window.componentRegistry) {
+                if (window.componentRegistry && typeof window.componentRegistry.get === 'function') {
+                    console.log('Attempting to get component from registry:', currentSlide.component);
                     this.currentComponent = window.componentRegistry.get(currentSlide.component, currentSlide);
                     
                     if (this.currentComponent) {
                         console.log('Component loaded successfully:', currentSlide.component);
+                        console.log('Component type:', this.currentComponent.constructor.name);
                     } else {
-                        console.warn('Component not found in registry:', currentSlide.component);
+                        // If component not found in registry, use PlaceholderComponent
+                        console.log('Component not found in registry, using PlaceholderComponent for:', currentSlide.component);
                         this.currentComponent = new PlaceholderComponent(currentSlide);
                     }
                 } else {
@@ -121,7 +127,11 @@ class Presentation {
                 // Render the component if we have one
                 if (this.currentComponent) {
                     // All components should now extend BaseComponent and have a render method
-                    contentElement.innerHTML = this.currentComponent.render();
+                    console.log('About to render component:', currentSlide.component);
+                    console.log('Component methods:', Object.getOwnPropertyNames(Object.getPrototypeOf(this.currentComponent)));
+                    const rendered = this.currentComponent.render();
+                    console.log('Rendered content:', rendered.substring(0, 100) + '...');
+                    contentElement.innerHTML = rendered;
                     console.log('Component rendered');
                     
                     // Initialize the component after adding to DOM
