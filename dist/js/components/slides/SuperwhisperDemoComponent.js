@@ -29,13 +29,22 @@ class SuperwhisperDemoComponent extends BaseComponent {
         boxDescription.style.color = '#666';
         transcriptionBox.appendChild(boxDescription);
         
-        const textArea = document.createElement('div');
+        const textArea = document.createElement('textarea');
         textArea.style.height = '100px';
+        textArea.style.width = '100%';
         textArea.style.backgroundColor = '#f1f1f1';
         textArea.style.border = '1px solid #ddd';
         textArea.style.borderRadius = '4px';
         textArea.style.marginTop = '10px';
+        textArea.style.padding = '10px';
+        textArea.style.resize = 'none';
+        textArea.placeholder = 'Click here to place cursor. Transcribed text will appear here...';
         transcriptionBox.appendChild(textArea);
+        
+        // Add click event to focus the text area
+        textArea.addEventListener('click', function() {
+            this.focus();
+        });
         
         container.appendChild(transcriptionBox);
         
