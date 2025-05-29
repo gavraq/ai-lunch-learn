@@ -85,6 +85,11 @@ const presentationConfig = {
                     component: "BusinessRequirementsComponent"
                 },
                 {
+                    id: "credit-workflow-state-diagram",
+                    title: "Step 2a: Credit Workflow State Diagram",
+                    component: "CreditWorkflowStateDiagramComponent"
+                },
+                {
                     id: "ui-ux-design",
                     title: "Step 3: UI/UX Design",
                     component: "UiUxDesignComponent"

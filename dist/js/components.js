@@ -124,6 +124,7 @@ function registerComponents() {
     componentRegistry.register('StructuredApproachComponent', StructuredApproachComponent);
     componentRegistry.register('DeepResearchComponent', DeepResearchComponent);
     componentRegistry.register('BusinessRequirementsComponent', BusinessRequirementsComponent);
+    componentRegistry.register('CreditWorkflowStateDiagramComponent', CreditWorkflowStateDiagramComponent);
     componentRegistry.register('UiUxDesignComponent', UiUxDesignComponent);
     componentRegistry.register('FormDesignComponent', FormDesignComponent);
     componentRegistry.register('ArchitectureDesignComponent', ArchitectureDesignComponent);
