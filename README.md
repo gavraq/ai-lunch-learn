@@ -168,15 +168,18 @@ ai-lunch-learn/
    cd ai-lunch-learn
    ```
 
-3. Start a local web server:
+3. Start a local web server (from the dist directory):
    ```
-   python -m http.server 8000
+   python3 -m http.server 8000 --bind 0.0.0.0
    ```
+   > **Note:** The `--bind 0.0.0.0` flag makes the server accessible from other devices on your network or via a reverse proxy (e.g., nginx proxy manager). This is required if you want to access the presentation from a subdomain or another machine.
 
 4. Open your browser and visit:
    ```
    http://localhost:8000
    ```
+   Or, from another device on your network, replace `localhost` with your machine's LAN IP address (e.g., `http://192.168.x.x:8000`).
+   If using a reverse proxy (e.g., credit.gavinslater.co.uk), use the appropriate domain.
 
 ### Server Management
 
@@ -184,11 +187,13 @@ To stop an existing server and start a new one:
 
 ```bash
 # Kill any existing Python HTTP servers
-pkill -f "python -m http.server"
+lsof -i :8000 | grep LISTEN
+pkill XXXX -- XXXX is the number of the process to kill
 
-# Start a new server
-python -m http.server 8000
+# Start a new server (from the dist directory)
+python3 -m http.server 8000 --bind 0.0.0.0
 ```
+> **Tip:** Always use the `--bind 0.0.0.0` flag if you want the server to be accessible externally (e.g., via nginx proxy manager or from other devices on your LAN).
 
 ## Enhanced Slides
 

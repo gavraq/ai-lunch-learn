@@ -665,33 +665,36 @@ The app is for Credit Risk Workflow, traversing the following process:
     
     initialize() {
         if (this.initialized) return;
-        
-        // Add event listener for copy button
-        const copyButton = container.querySelector('.copy-button');
+
+        // Add event listener for copy button using selector (consistent pattern)
+        const copyButton = document.querySelector('.uiux-design-container .copy-button');
         if (copyButton) {
-            copyButton.addEventListener('click', () => {
-                const codeText = copyButton.getAttribute('data-code');
-                navigator.clipboard.writeText(codeText).then(() => {
-                    // Show copied feedback
-                    const originalText = copyButton.innerHTML;
-                    copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    setTimeout(() => {
-                        copyButton.innerHTML = originalText;
-                    }, 2000);
-                });
-            });
+            copyButton.addEventListener('click', this.handleCopyClick);
         }
-        
+
         this.initialized = true;
     }
 
+    handleCopyClick = (event) => {
+        const copyButton = event.currentTarget;
+        const codeText = copyButton.getAttribute('data-code');
+        navigator.clipboard.writeText(codeText).then(() => {
+            // Show copied feedback
+            const originalText = copyButton.innerHTML;
+            copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => {
+                copyButton.innerHTML = originalText;
+            }, 2000);
+        });
+    };
+
     cleanup() {
-        // Clean up event listeners
-        const copyButton = container.querySelector('.copy-button');
+        // Clean up event listeners using selector (consistent pattern)
+        const copyButton = document.querySelector('.uiux-design-container .copy-button');
         if (copyButton) {
-            copyButton.removeEventListener('click', null);
+            copyButton.removeEventListener('click', this.handleCopyClick);
         }
-        
+
         this.initialized = false;
     }
 }
