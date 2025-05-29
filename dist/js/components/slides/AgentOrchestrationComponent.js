@@ -4,35 +4,65 @@ class AgentOrchestrationComponent extends BaseComponent {
         super(slideData);
         this.initialized = false;
     }
-
+    
     createContent() {
         const container = document.createElement('div');
+        container.className = 'agent-orchestration-container';
         
-        // Introduction
-        const intro = document.createElement('div');
-        intro.className = 'intro mb-lg';
+        // Title section with visual impact
+        const titleSection = document.createElement('div');
+        titleSection.className = 'title-section';
         
-        const introText = document.createElement('p');
-        introText.className = 'large-text';
-        introText.innerHTML = 'The future of AI in the workplace is not just about individual agents, but about orchestrating multiple specialized agents to work together on complex tasks.';
-        intro.appendChild(introText);
+        const title = document.createElement('h2');
+        title.className = 'slide-title';
+        title.textContent = 'Agent Orchestration';
+        titleSection.appendChild(title);
         
-        container.appendChild(intro);
+        container.appendChild(titleSection);
         
-        // Orchestration diagram
-        const orchestrationSection = document.createElement('div');
-        orchestrationSection.className = 'orchestration-section mb-lg';
+        // Introduction with visual emphasis
+        const introSection = document.createElement('div');
+        introSection.className = 'intro-section';
         
-        const orchestrationTitle = document.createElement('h3');
-        orchestrationTitle.textContent = 'Agent Orchestration';
-        orchestrationSection.appendChild(orchestrationTitle);
+        const introCard = document.createElement('div');
+        introCard.className = 'intro-card';
         
+        const introIcon = document.createElement('div');
+        introIcon.className = 'intro-icon';
+        introIcon.innerHTML = '<i class="fas fa-brain"></i>';
+        introCard.appendChild(introIcon);
+        
+        const introContent = document.createElement('div');
+        introContent.className = 'intro-content';
+        
+        const introParagraph = document.createElement('p');
+        introParagraph.className = 'intro-text';
+        introParagraph.innerHTML = 'The future of AI in the workplace is not just about individual agents, but about orchestrating multiple specialized agents to work together on complex tasks. This approach allows each agent to focus on what it does best while a conductor agent coordinates their efforts.';
+        introContent.appendChild(introParagraph);
+        
+        introCard.appendChild(introContent);
+        introSection.appendChild(introCard);
+        container.appendChild(introSection);
+        
+        // Orchestration Diagram with visual representation
+        const diagramSection = document.createElement('div');
+        diagramSection.className = 'diagram-section';
+        
+        const diagramTitle = document.createElement('h3');
+        diagramTitle.className = 'section-title';
+        diagramTitle.textContent = 'Agent Orchestration Model';
+        diagramSection.appendChild(diagramTitle);
+        
+        const diagramCard = document.createElement('div');
+        diagramCard.className = 'diagram-card';
+        
+        // Create the orchestration diagram
         const orchestrationDiagram = document.createElement('div');
         orchestrationDiagram.className = 'orchestration-diagram';
         
         // Create the conductor agent
         const conductor = document.createElement('div');
-        conductor.className = 'conductor';
+        conductor.className = 'conductor-agent';
         conductor.innerHTML = `
             <div class="agent-icon">
                 <i class="fas fa-brain"></i>
@@ -41,47 +71,67 @@ class AgentOrchestrationComponent extends BaseComponent {
         `;
         orchestrationDiagram.appendChild(conductor);
         
-        // Create the communication canvas
-        const canvas = document.createElement('canvas');
-        canvas.className = 'communication-canvas';
-        orchestrationDiagram.appendChild(canvas);
+        // Create the specialized agents container
+        const agentsContainer = document.createElement('div');
+        agentsContainer.className = 'agents-container';
         
         // Create specialized agents
         const agents = [
-            { name: 'Research Agent', icon: 'fas fa-search' },
-            { name: 'Data Analysis Agent', icon: 'fas fa-chart-bar' },
-            { name: 'Document Agent', icon: 'fas fa-file-alt' },
-            { name: 'Code Agent', icon: 'fas fa-code' },
-            { name: 'Voice Agent', icon: 'fas fa-microphone' },
-            { name: 'Email Agent', icon: 'fas fa-envelope' }
+            { name: 'Research Agent', icon: 'fas fa-search', color: '#0c4da2' },
+            { name: 'Data Analysis Agent', icon: 'fas fa-chart-bar', color: '#e31937' },
+            { name: 'Document Agent', icon: 'fas fa-file-alt', color: '#4CAF50' },
+            { name: 'Code Agent', icon: 'fas fa-code', color: '#FF9800' },
+            { name: 'Voice Agent', icon: 'fas fa-microphone', color: '#9C27B0' },
+            { name: 'Email Agent', icon: 'fas fa-envelope', color: '#00BCD4' }
         ];
-        
-        const agentContainer = document.createElement('div');
-        agentContainer.className = 'agent-container';
         
         agents.forEach(agent => {
             const agentNode = document.createElement('div');
             agentNode.className = 'agent-node';
-            agentNode.innerHTML = `
-                <div class="agent-icon">
-                    <i class="${agent.icon}"></i>
-                </div>
-                <div class="agent-label">${agent.name}</div>
-            `;
-            agentContainer.appendChild(agentNode);
+            agentNode.style.borderColor = agent.color;
+            
+            const agentIcon = document.createElement('div');
+            agentIcon.className = 'agent-icon';
+            agentIcon.style.color = agent.color;
+            agentIcon.innerHTML = `<i class="${agent.icon}"></i>`;
+            agentNode.appendChild(agentIcon);
+            
+            const agentLabel = document.createElement('div');
+            agentLabel.className = 'agent-label';
+            agentLabel.textContent = agent.name;
+            agentNode.appendChild(agentLabel);
+            
+            agentsContainer.appendChild(agentNode);
         });
         
-        orchestrationDiagram.appendChild(agentContainer);
-        orchestrationSection.appendChild(orchestrationDiagram);
-        container.appendChild(orchestrationSection);
+        orchestrationDiagram.appendChild(agentsContainer);
+        diagramCard.appendChild(orchestrationDiagram);
         
-        // Workflow section
+        // Create the communication lines canvas
+        const canvasContainer = document.createElement('div');
+        canvasContainer.className = 'canvas-container';
+        
+        const canvas = document.createElement('canvas');
+        canvas.className = 'communication-canvas';
+        canvas.width = 800;
+        canvas.height = 600;
+        canvasContainer.appendChild(canvas);
+        
+        diagramCard.appendChild(canvasContainer);
+        diagramSection.appendChild(diagramCard);
+        container.appendChild(diagramSection);
+        
+        // Workflow Example with visual timeline
         const workflowSection = document.createElement('div');
         workflowSection.className = 'workflow-section';
         
         const workflowTitle = document.createElement('h3');
+        workflowTitle.className = 'section-title';
         workflowTitle.textContent = 'Example Workflow: Credit Risk Assessment';
         workflowSection.appendChild(workflowTitle);
+        
+        const workflowCard = document.createElement('div');
+        workflowCard.className = 'workflow-card';
         
         const workflowSteps = document.createElement('div');
         workflowSteps.className = 'workflow-steps';
@@ -90,428 +140,615 @@ class AgentOrchestrationComponent extends BaseComponent {
             {
                 title: 'Request Intake',
                 description: 'Voice Agent captures credit request details from a meeting',
-                agent: 'Voice Agent'
+                agent: 'Voice Agent',
+                icon: 'fa-microphone',
+                color: '#9C27B0'
             },
             {
                 title: 'Data Gathering',
                 description: 'Research Agent collects relevant financial information',
-                agent: 'Research Agent'
+                agent: 'Research Agent',
+                icon: 'fa-search',
+                color: '#0c4da2'
             },
             {
                 title: 'Analysis',
                 description: 'Data Analysis Agent processes financial metrics and identifies risks',
-                agent: 'Data Analysis Agent'
+                agent: 'Data Analysis Agent',
+                icon: 'fa-chart-bar',
+                color: '#e31937'
             },
             {
                 title: 'Documentation',
                 description: 'Document Agent prepares the credit assessment report',
-                agent: 'Document Agent'
+                agent: 'Document Agent',
+                icon: 'fa-file-alt',
+                color: '#4CAF50'
             },
             {
                 title: 'Notification',
                 description: 'Email Agent sends the report to stakeholders',
-                agent: 'Email Agent'
+                agent: 'Email Agent',
+                icon: 'fa-envelope',
+                color: '#00BCD4'
             }
         ];
         
-        steps.forEach(step => {
-            const workflowStep = document.createElement('div');
-            workflowStep.className = 'workflow-step';
+        steps.forEach((step, index) => {
+            const stepItem = document.createElement('div');
+            stepItem.className = 'workflow-step';
+            
+            const stepNumber = document.createElement('div');
+            stepNumber.className = 'step-number';
+            stepNumber.textContent = index + 1;
+            stepItem.appendChild(stepNumber);
+            
+            const stepContent = document.createElement('div');
+            stepContent.className = 'step-content';
+            
+            const stepHeader = document.createElement('div');
+            stepHeader.className = 'step-header';
             
             const stepTitle = document.createElement('h4');
+            stepTitle.className = 'step-title';
             stepTitle.textContent = step.title;
-            workflowStep.appendChild(stepTitle);
-            
-            const stepDesc = document.createElement('p');
-            stepDesc.textContent = step.description;
-            workflowStep.appendChild(stepDesc);
+            stepHeader.appendChild(stepTitle);
             
             const stepAgent = document.createElement('div');
             stepAgent.className = 'step-agent';
-            stepAgent.textContent = step.agent;
-            workflowStep.appendChild(stepAgent);
+            stepAgent.style.backgroundColor = step.color;
+            stepAgent.innerHTML = `<i class="fas ${step.icon}"></i> ${step.agent}`;
+            stepHeader.appendChild(stepAgent);
             
-            workflowSteps.appendChild(workflowStep);
+            stepContent.appendChild(stepHeader);
+            
+            const stepDescription = document.createElement('p');
+            stepDescription.className = 'step-description';
+            stepDescription.textContent = step.description;
+            stepContent.appendChild(stepDescription);
+            
+            stepItem.appendChild(stepContent);
+            workflowSteps.appendChild(stepItem);
         });
         
-        workflowSection.appendChild(workflowSteps);
+        workflowCard.appendChild(workflowSteps);
+        workflowSection.appendChild(workflowCard);
         container.appendChild(workflowSection);
         
-        // Benefits section
+        // Benefits with visual cards
         const benefitsSection = document.createElement('div');
-        benefitsSection.className = 'benefits-section mt-lg';
+        benefitsSection.className = 'benefits-section';
         
         const benefitsTitle = document.createElement('h3');
+        benefitsTitle.className = 'section-title';
         benefitsTitle.textContent = 'Benefits of Agent Orchestration';
         benefitsSection.appendChild(benefitsTitle);
         
-        const benefitsList = this.createList([
-            'Specialized agents can excel at specific tasks',
-            'Complex workflows can be automated end-to-end',
-            'Agents can work 24/7 without human intervention',
-            'Scalable approach to handling multiple parallel processes',
-            'Humans can focus on oversight and exception handling'
-        ]);
+        const benefitsGrid = document.createElement('div');
+        benefitsGrid.className = 'benefits-grid';
         
-        benefitsSection.appendChild(benefitsList);
+        const benefits = [
+            {
+                icon: 'fa-puzzle-piece',
+                title: 'Specialized Expertise',
+                description: 'Each agent can excel at specific tasks rather than being a jack-of-all-trades'
+            },
+            {
+                icon: 'fa-cogs',
+                title: 'End-to-End Automation',
+                description: 'Complex workflows can be automated across multiple domains and functions'
+            },
+            {
+                icon: 'fa-clock',
+                title: '24/7 Operation',
+                description: 'Agents can work continuously without human intervention'
+            },
+            {
+                icon: 'fa-expand-arrows-alt',
+                title: 'Scalability',
+                description: 'Handle multiple parallel processes simultaneously'
+            },
+            {
+                icon: 'fa-user-shield',
+                title: 'Human Oversight',
+                description: 'People can focus on exception handling and strategic decisions'
+            },
+            {
+                icon: 'fa-project-diagram',
+                title: 'Complex Problem Solving',
+                description: 'Tackle multi-faceted challenges that single agents struggle with'
+            }
+        ];
+        
+        benefits.forEach(benefit => {
+            const benefitCard = document.createElement('div');
+            benefitCard.className = 'benefit-card';
+            
+            const benefitIcon = document.createElement('div');
+            benefitIcon.className = 'benefit-icon';
+            benefitIcon.innerHTML = `<i class="fas ${benefit.icon}"></i>`;
+            benefitCard.appendChild(benefitIcon);
+            
+            const benefitTitle = document.createElement('h4');
+            benefitTitle.className = 'benefit-title';
+            benefitTitle.textContent = benefit.title;
+            benefitCard.appendChild(benefitTitle);
+            
+            const benefitDescription = document.createElement('p');
+            benefitDescription.className = 'benefit-description';
+            benefitDescription.textContent = benefit.description;
+            benefitCard.appendChild(benefitDescription);
+            
+            benefitsGrid.appendChild(benefitCard);
+        });
+        
+        benefitsSection.appendChild(benefitsGrid);
         container.appendChild(benefitsSection);
+        
+        // Add CSS for this component
+        const style = document.createElement('style');
+        style.textContent = `
+            .agent-orchestration-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 1.5rem;
+                font-family: 'Inter', sans-serif;
+                color: #323F4B;
+            }
+            
+            .title-section {
+                margin-bottom: 2rem;
+                text-align: center;
+            }
+            
+            .slide-title {
+                font-size: 1.875rem;
+                font-weight: 700;
+                color: #0c4da2;
+                margin: 0;
+                line-height: 2.25rem;
+                position: relative;
+                display: inline-block;
+            }
+            
+            .slide-title:after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 25%;
+                width: 50%;
+                height: 4px;
+                background-color: #e31937;
+                border-radius: 2px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: #0c4da2;
+                margin-top: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .intro-section {
+                margin-bottom: 2.5rem;
+            }
+            
+            .intro-card {
+                background-color: #f8fafc;
+                border-radius: 0.5rem;
+                padding: 1.5rem;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: flex-start;
+                border-left: 4px solid #0c4da2;
+            }
+            
+            .intro-icon {
+                font-size: 2rem;
+                color: #0c4da2;
+                margin-right: 1.5rem;
+                flex-shrink: 0;
+            }
+            
+            .intro-content {
+                flex: 1;
+            }
+            
+            .intro-text {
+                font-size: 1rem;
+                line-height: 1.6;
+                color: #4A5568;
+                margin: 0;
+            }
+            
+            .diagram-section {
+                margin-bottom: 2.5rem;
+                position: relative;
+            }
+            
+            .diagram-card {
+                background-color: white;
+                border-radius: 0.5rem;
+                padding: 1.5rem;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                border: 1px solid #E4E7EB;
+                position: relative;
+                min-height: 400px;
+            }
+            
+            .orchestration-diagram {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 10;
+            }
+            
+            .conductor-agent {
+                background-color: white;
+                border-radius: 0.5rem;
+                padding: 1rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                border: 2px solid #0c4da2;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 3rem;
+                position: relative;
+                z-index: 20;
+                width: 150px;
+            }
+            
+            .conductor-agent:after {
+                content: '';
+                position: absolute;
+                bottom: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: 20px solid #0c4da2;
+            }
+            
+            .agents-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.5rem;
+                width: 100%;
+            }
+            
+            .agent-node {
+                background-color: white;
+                border-radius: 0.5rem;
+                padding: 1rem;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                border: 2px solid #CBD2D9;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 120px;
+                transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+                position: relative;
+                z-index: 20;
+            }
+            
+            .agent-node:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            
+            .agent-icon {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .agent-label {
+                font-size: 0.875rem;
+                font-weight: 600;
+                text-align: center;
+                color: #323F4B;
+            }
+            
+            .canvas-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 5;
+            }
+            
+            .communication-canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .workflow-section {
+                margin-bottom: 2.5rem;
+            }
+            
+            .workflow-card {
+                background-color: white;
+                border-radius: 0.5rem;
+                padding: 1.5rem;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                border: 1px solid #E4E7EB;
+            }
+            
+            .workflow-steps {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .workflow-step {
+                display: flex;
+                align-items: flex-start;
+                background-color: #f8fafc;
+                border-radius: 0.5rem;
+                padding: 1rem;
+                transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+            }
+            
+            .workflow-step:hover {
+                transform: translateY(-5px);
+                background-color: #EBF8FF;
+            }
+            
+            .step-number {
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                background-color: #0c4da2;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                margin-right: 1rem;
+                flex-shrink: 0;
+            }
+            
+            .step-content {
+                flex: 1;
+            }
+            
+            .step-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .step-title {
+                font-size: 1.125rem;
+                font-weight: 600;
+                color: #323F4B;
+                margin: 0;
+            }
+            
+            .step-agent {
+                font-size: 0.75rem;
+                color: white;
+                padding: 0.25rem 0.5rem;
+                border-radius: 1rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .step-description {
+                font-size: 0.875rem;
+                color: #4A5568;
+                margin: 0;
+            }
+            
+            .benefits-section {
+                margin-bottom: 1.5rem;
+            }
+            
+            .benefits-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .benefit-card {
+                background-color: white;
+                border-radius: 0.5rem;
+                padding: 1.5rem;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                border: 1px solid #E4E7EB;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                transition: transform 0.2s ease-out;
+            }
+            
+            .benefit-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            
+            .benefit-icon {
+                width: 3rem;
+                height: 3rem;
+                border-radius: 50%;
+                background-color: rgba(12, 77, 162, 0.1);
+                color: #0c4da2;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .benefit-title {
+                font-size: 1.125rem;
+                font-weight: 600;
+                color: #323F4B;
+                margin: 0 0 0.75rem 0;
+            }
+            
+            .benefit-description {
+                font-size: 0.875rem;
+                color: #4A5568;
+                line-height: 1.5;
+                margin: 0;
+            }
+            
+            @media (max-width: 768px) {
+                .intro-card {
+                    flex-direction: column;
+                }
+                
+                .intro-icon {
+                    margin-right: 0;
+                    margin-bottom: 1rem;
+                }
+                
+                .step-header {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                
+                .step-agent {
+                    margin-top: 0.5rem;
+                }
+            }
+        `;
+        container.appendChild(style);
         
         return container;
     }
-
+    
     initialize() {
         if (this.initialized) return;
         
-        // Add animation to the orchestration diagram
-        const conductor = document.querySelector('.conductor');
-        const agentNodes = document.querySelectorAll('.agent-node');
-        
-        if (conductor && agentNodes.length > 0) {
-            // Add a subtle pulse animation to the conductor
-            conductor.style.animation = 'pulse 2s infinite';
+        // Draw communication lines between agents
+        const drawCommunicationLines = () => {
+            const canvas = document.querySelector('.communication-canvas');
+            if (!canvas) return;
             
-            // Add keyframes for the pulse animation if they don't exist
-            if (!document.querySelector('#orchestration-animations')) {
-                const style = document.createElement('style');
-                style.id = 'orchestration-animations';
-                style.textContent = `
-                    @keyframes pulse {
-                        0% { transform: scale(1); }
-                        50% { transform: scale(1.05); }
-                        100% { transform: scale(1); }
-                    }
-                    
-                    @keyframes highlight {
-                        0% { transform: scale(1); box-shadow: 0 0 0 rgba(12, 77, 162, 0); }
-                        50% { transform: scale(1.1); box-shadow: 0 0 10px rgba(12, 77, 162, 0.5); }
-                        100% { transform: scale(1); box-shadow: 0 0 0 rgba(12, 77, 162, 0); }
-                    }
-                `;
-                document.head.appendChild(style);
+            const ctx = canvas.getContext('2d');
+            const conductor = document.querySelector('.conductor-agent');
+            const agents = document.querySelectorAll('.agent-node');
+            
+            // Set canvas dimensions to match container
+            const diagramCard = document.querySelector('.diagram-card');
+            if (diagramCard) {
+                const rect = diagramCard.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
             }
             
-            // Add hover effect and click interaction to agent nodes
-            agentNodes.forEach((node, index) => {
-                // Add hover effect
-                node.addEventListener('mouseenter', () => {
-                    node.style.transform = 'scale(1.1)';
-                    node.style.transition = 'transform 0.3s ease';
-                });
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (conductor && agents.length > 0) {
+                const conductorRect = conductor.getBoundingClientRect();
+                const canvasRect = canvas.getBoundingClientRect();
                 
-                node.addEventListener('mouseleave', () => {
-                    node.style.transform = 'scale(1)';
-                });
+                // Calculate conductor position relative to canvas
+                const conductorX = conductorRect.left + conductorRect.width / 2 - canvasRect.left;
+                const conductorY = conductorRect.top + conductorRect.height / 2 - canvasRect.top;
                 
-                // Add click interaction
-                node.addEventListener('click', () => {
-                    // Remove any existing animations
-                    agentNodes.forEach(n => {
-                        n.style.animation = '';
-                    });
+                // Draw lines from conductor to each agent
+                agents.forEach((agent, index) => {
+                    const agentRect = agent.getBoundingClientRect();
+                    const agentX = agentRect.left + agentRect.width / 2 - canvasRect.left;
+                    const agentY = agentRect.top + agentRect.height / 2 - canvasRect.top;
                     
-                    // Add highlight animation to the clicked node
-                    node.style.animation = 'highlight 2s';
+                    // Draw line
+                    ctx.beginPath();
+                    ctx.moveTo(conductorX, conductorY);
+                    ctx.lineTo(agentX, agentY);
+                    ctx.strokeStyle = 'rgba(12, 77, 162, 0.3)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
                     
-                    // Show a tooltip or information about this agent
-                    const agentInfo = this.getAgentInfo(index);
-                    this.showAgentInfo(agentInfo, node);
+                    // Draw pulse that moves along the line
+                    const time = (Date.now() + index * 500) % 3000 / 3000; // 0 to 1 over 3 seconds, staggered
+                    const pulseX = conductorX + (agentX - conductorX) * time;
+                    const pulseY = conductorY + (agentY - conductorY) * time;
+                    
+                    ctx.beginPath();
+                    ctx.arc(pulseX, pulseY, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(12, 77, 162, 0.8)';
+                    ctx.fill();
                 });
+            }
+        };
+        
+        // Start animation
+        this.animationInterval = setInterval(drawCommunicationLines, 50);
+        
+        // Handle window resize
+        this.handleResize = () => {
+            drawCommunicationLines();
+        };
+        
+        window.addEventListener('resize', this.handleResize);
+        
+        // Add hover effects to agent nodes
+        const agentNodes = document.querySelectorAll('.agent-node');
+        agentNodes.forEach(node => {
+            node.addEventListener('mouseenter', () => {
+                node.style.transform = 'translateY(-5px) scale(1.05)';
+                node.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.1)';
+                node.style.transition = 'all 0.3s ease';
+                node.style.zIndex = '30';
             });
             
-            // Simulate communication between agents with lines/pulses
-            this.simulateAgentCommunication(agentNodes);
-        }
-        
-        // Add animation to the workflow steps
-        const workflowSteps = document.querySelectorAll('.workflow-step');
-        if (workflowSteps.length > 0) {
-            workflowSteps.forEach((step, index) => {
-                // Add a staggered entrance animation
-                step.style.opacity = '0';
-                step.style.transform = 'translateX(-20px)';
-                step.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                
-                setTimeout(() => {
-                    step.style.opacity = '1';
-                    step.style.transform = 'translateX(0)';
-                }, 200 * index);
-                
-                // Add hover effect
-                step.addEventListener('mouseenter', () => {
-                    step.style.backgroundColor = 'var(--blue-light)';
-                    step.style.transition = 'background-color 0.3s ease';
-                });
-                
-                step.addEventListener('mouseleave', () => {
-                    step.style.backgroundColor = 'var(--neutral-200)';
-                });
+            node.addEventListener('mouseleave', () => {
+                node.style.transform = '';
+                node.style.boxShadow = '';
+                node.style.zIndex = '20';
             });
-        }
+        });
+        
+        // Add animation to workflow steps
+        const workflowSteps = document.querySelectorAll('.workflow-step');
+        workflowSteps.forEach((step, index) => {
+            // Add staggered entrance animation
+            step.style.opacity = '0';
+            step.style.transform = 'translateX(-20px)';
+            
+            setTimeout(() => {
+                step.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                step.style.opacity = '1';
+                step.style.transform = 'translateX(0)';
+            }, 200 * index);
+        });
         
         this.initialized = true;
     }
     
-    // Helper method to get information about each agent
-    getAgentInfo(index) {
-        const agentInfoList = [
-            {
-                title: "Requirements Agent",
-                description: "Analyzes business needs and translates them into detailed specifications.",
-                capabilities: [
-                    "Conducts stakeholder interviews",
-                    "Identifies key requirements",
-                    "Prioritizes features",
-                    "Creates user stories"
-                ]
-            },
-            {
-                title: "Design Agent",
-                description: "Creates visual and interaction designs based on requirements.",
-                capabilities: [
-                    "Wireframing",
-                    "UI component design",
-                    "Style guide creation",
-                    "Responsive layouts"
-                ]
-            },
-            {
-                title: "Coding Agent",
-                description: "Transforms designs and specifications into working code.",
-                capabilities: [
-                    "Multi-language programming",
-                    "Code optimization",
-                    "API integration",
-                    "Database management"
-                ]
-            },
-            {
-                title: "Testing Agent",
-                description: "Ensures quality through comprehensive testing.",
-                capabilities: [
-                    "Unit testing",
-                    "Integration testing",
-                    "Performance testing",
-                    "Security validation"
-                ]
-            },
-            {
-                title: "Documentation Agent",
-                description: "Creates comprehensive documentation for all aspects of the project.",
-                capabilities: [
-                    "User guides",
-                    "Technical documentation",
-                    "API references",
-                    "Process workflows"
-                ]
-            },
-            {
-                title: "Deployment Agent",
-                description: "Handles the deployment and maintenance of the application.",
-                capabilities: [
-                    "CI/CD pipeline setup",
-                    "Cloud infrastructure management",
-                    "Monitoring configuration",
-                    "Scaling optimization"
-                ]
-            }
-        ];
-        
-        return agentInfoList[index] || {
-            title: "Specialized Agent",
-            description: "A specialized AI agent focused on a specific task.",
-            capabilities: [
-                "Task automation",
-                "Data processing",
-                "Decision support",
-                "Integration with other agents"
-            ]
-        };
-    }
-    
-    // Helper method to show agent information
-    showAgentInfo(agentInfo, node) {
-        // Remove any existing info panels
-        const existingPanel = document.querySelector('.agent-info-panel');
-        if (existingPanel) {
-            existingPanel.remove();
-        }
-        
-        // Create a new info panel
-        const infoPanel = document.createElement('div');
-        infoPanel.className = 'agent-info-panel';
-        infoPanel.innerHTML = `
-            <h4>${agentInfo.title}</h4>
-            <p>${agentInfo.description}</p>
-            <h5>Capabilities:</h5>
-            <ul>
-                ${agentInfo.capabilities.map(cap => `<li>${cap}</li>`).join('')}
-            </ul>
-            <button class="close-btn"><i class="fas fa-times"></i></button>
-        `;
-        
-        // Style the panel
-        infoPanel.style.position = 'absolute';
-        infoPanel.style.backgroundColor = 'white';
-        infoPanel.style.padding = '15px';
-        infoPanel.style.borderRadius = '8px';
-        infoPanel.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
-        infoPanel.style.zIndex = '100';
-        infoPanel.style.maxWidth = '300px';
-        infoPanel.style.transition = 'opacity 0.3s ease';
-        infoPanel.style.opacity = '0';
-        
-        // Position the panel near the node
-        const nodeRect = node.getBoundingClientRect();
-        const orchestrationDiagram = document.querySelector('.orchestration-diagram');
-        const diagramRect = orchestrationDiagram.getBoundingClientRect();
-        
-        infoPanel.style.top = `${nodeRect.top - diagramRect.top + 60}px`;
-        infoPanel.style.left = `${nodeRect.left - diagramRect.left - 100}px`;
-        
-        // Add the panel to the diagram
-        orchestrationDiagram.appendChild(infoPanel);
-        
-        // Fade in the panel
-        setTimeout(() => {
-            infoPanel.style.opacity = '1';
-        }, 10);
-        
-        // Add close button functionality
-        const closeBtn = infoPanel.querySelector('.close-btn');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                infoPanel.style.opacity = '0';
-                setTimeout(() => {
-                    infoPanel.remove();
-                }, 300);
-            });
-        }
-    }
-    
-    // Helper method to simulate communication between agents
-    simulateAgentCommunication(agentNodes) {
-        // Create a canvas for drawing communication lines
-        const orchestrationDiagram = document.querySelector('.orchestration-diagram');
-        if (!orchestrationDiagram) return;
-        
-        const canvas = document.createElement('canvas');
-        canvas.className = 'communication-canvas';
-        canvas.style.position = 'absolute';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.pointerEvents = 'none';
-        canvas.style.zIndex = '50';
-        
-        orchestrationDiagram.appendChild(canvas);
-        
-        // Set canvas size to match container
-        const resizeCanvas = () => {
-            const rect = orchestrationDiagram.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-        };
-        
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        
-        // Periodically draw communication lines between random agents
-        const ctx = canvas.getContext('2d');
-        
-        const drawCommunication = () => {
-            // Clear the canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Select two random agents to communicate
-            const sourceIndex = Math.floor(Math.random() * agentNodes.length);
-            let targetIndex = Math.floor(Math.random() * agentNodes.length);
-            while (targetIndex === sourceIndex) {
-                targetIndex = Math.floor(Math.random() * agentNodes.length);
-            }
-            
-            const sourceNode = agentNodes[sourceIndex];
-            const targetNode = agentNodes[targetIndex];
-            
-            // Get positions relative to the canvas
-            const sourceRect = sourceNode.getBoundingClientRect();
-            const targetRect = targetNode.getBoundingClientRect();
-            const canvasRect = canvas.getBoundingClientRect();
-            
-            const sourceX = sourceRect.left + sourceRect.width / 2 - canvasRect.left;
-            const sourceY = sourceRect.top + sourceRect.height / 2 - canvasRect.top;
-            const targetX = targetRect.left + targetRect.width / 2 - canvasRect.left;
-            const targetY = targetRect.top + targetRect.height / 2 - canvasRect.top;
-            
-            // Draw a line with a moving pulse
-            ctx.beginPath();
-            ctx.moveTo(sourceX, sourceY);
-            ctx.lineTo(targetX, targetY);
-            ctx.strokeStyle = 'rgba(12, 77, 162, 0.3)';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            // Draw a pulse that moves along the line
-            const time = Date.now() % 2000 / 2000; // 0 to 1 over 2 seconds
-            const pulseX = sourceX + (targetX - sourceX) * time;
-            const pulseY = sourceY + (targetY - sourceY) * time;
-            
-            ctx.beginPath();
-            ctx.arc(pulseX, pulseY, 5, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(12, 77, 162, 0.8)';
-            ctx.fill();
-        };
-        
-        // Start the animation
-        const animationInterval = setInterval(drawCommunication, 50);
-        
-        // Store the interval ID for cleanup
-        this.animationInterval = animationInterval;
-    }
-    
     cleanup() {
-        // Clean up any event listeners or resources when navigating away from this slide
-        const conductor = document.querySelector('.conductor');
-        const agentNodes = document.querySelectorAll('.agent-node');
-        const workflowSteps = document.querySelectorAll('.workflow-step');
-        
-        if (conductor) {
-            conductor.style.animation = '';
-        }
-        
-        agentNodes.forEach(node => {
-            node.replaceWith(node.cloneNode(true));
-        });
-        
-        workflowSteps.forEach(step => {
-            step.replaceWith(step.cloneNode(true));
-        });
-        
-        // Remove the animations style element
-        const animationsStyle = document.getElementById('orchestration-animations');
-        if (animationsStyle) {
-            animationsStyle.remove();
-        }
-        
-        // Remove any info panels
-        const infoPanel = document.querySelector('.agent-info-panel');
-        if (infoPanel) {
-            infoPanel.remove();
-        }
-        
-        // Remove the communication canvas
-        const canvas = document.querySelector('.communication-canvas');
-        if (canvas) {
-            canvas.remove();
-        }
-        
-        // Clear the animation interval
+        // Clean up animation interval
         if (this.animationInterval) {
             clearInterval(this.animationInterval);
         }
         
         // Remove resize event listener
-        window.removeEventListener('resize', this.resizeCanvas);
+        if (this.handleResize) {
+            window.removeEventListener('resize', this.handleResize);
+        }
+        
+        // Clean up event listeners
+        const agentNodes = document.querySelectorAll('.agent-node');
+        agentNodes.forEach(node => {
+            node.replaceWith(node.cloneNode(true));
+        });
         
         this.initialized = false;
     }

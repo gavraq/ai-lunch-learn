@@ -2,36 +2,127 @@
 class CreditRiskGoalsComponent extends BaseComponent {
     createContent() {
         const container = document.createElement('div');
+        container.style.cssText = 'max-width: 1200px; margin: 0 auto; padding: 1rem;';
+        
+        // The main heading is already provided by the presentation framework
+        // so we don't need to add it again here
         
         // Introduction
         const intro = document.createElement('div');
         intro.className = 'intro mb-lg';
+        intro.style.cssText = 'background-color: #f8fafc; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem; border-left: 4px solid #0c4da2;';
         
         const introText = document.createElement('p');
         introText.className = 'large-text';
         introText.innerHTML = "Let's look at a worked example: From Emails to Apps - Credit Risk Workflow Journey";
+        introText.style.cssText = 'font-size: 1.25rem; font-weight: 500; color: #4A5568; margin: 0;';
         intro.appendChild(introText);
         container.appendChild(intro);
         
-        // Current state card
-        const currentStateCard = this.createCard('Current State', null);
-        currentStateCard.className = 'card current-state-card mb-lg';
+        // Main content card
+        const mainCard = document.createElement('div');
+        mainCard.className = 'card main-card mb-lg';
+        mainCard.style.cssText = 'background-color: #ffffff; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.5rem; margin-bottom: 2rem;';
         
-        const currentStateContent = document.createElement('div');
-        currentStateContent.className = 'current-state-content';
+        // Card header
+        const cardHeader = document.createElement('div');
+        cardHeader.className = 'card-header';
+        cardHeader.style.cssText = 'border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem; margin-bottom: 1.5rem;';
         
-        // Two-column layout for current state
-        const currentStateLayout = this.createTwoColumnLayout(null, null);
+        // Add the credit request flow diagram to the header
+        const creditFlowProcess = document.createElement('div');
+        creditFlowProcess.className = 'credit-flow-process';
+        creditFlowProcess.style.cssText = 'margin-top: 1.5rem; overflow-x: auto;';
+        
+        // Create a container with fixed height to ensure text stays on the same level
+        const flowContainer = document.createElement('div');
+        flowContainer.style.cssText = 'display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; min-width: 800px;';
+        
+        // Define the steps in the credit request flow
+        const steps = [
+            { name: 'Credit Request', icon: 'fa-file-alt' },
+            { name: 'Credit Review', icon: 'fa-search' },
+            { name: 'Business Sponsor', icon: 'fa-handshake' },
+            { name: 'Legal Review', icon: 'fa-balance-scale' },
+            { name: 'Credit Analysis', icon: 'fa-chart-line' },
+            { name: 'Approval', icon: 'fa-check-circle' }
+        ];
+        
+        // Create the flow diagram
+        steps.forEach((step, index) => {
+            // Create step box
+            const stepBox = document.createElement('div');
+            stepBox.style.cssText = 'display: flex; flex-direction: column; align-items: center; padding: 0.75rem; background-color: #e6edf7; border-radius: 8px; width: 100px; height: 80px; justify-content: center; margin: 0 0.25rem; flex-shrink: 0;';
+            
+            // Add icon
+            const icon = document.createElement('i');
+            icon.className = `fas ${step.icon}`;
+            icon.style.cssText = 'font-size: 1.5rem; color: #0c4da2; margin-bottom: 0.5rem;';
+            stepBox.appendChild(icon);
+            
+            // Add label with fixed height to ensure alignment
+            const label = document.createElement('div');
+            label.textContent = step.name;
+            label.style.cssText = 'text-align: center; font-size: 0.85rem; line-height: 1.2; color: #4a5568; height: 2.5rem; display: flex; align-items: center;';
+            stepBox.appendChild(label);
+            
+            flowContainer.appendChild(stepBox);
+            
+            // Add arrow if not the last step
+            if (index < steps.length - 1) {
+                const arrow = document.createElement('div');
+                arrow.innerHTML = '→';
+                arrow.style.cssText = 'font-size: 1.25rem; margin: 0 0.5rem; color: #4a5568; flex-shrink: 0;';
+                flowContainer.appendChild(arrow);
+            }
+        });
+        
+        creditFlowProcess.appendChild(flowContainer);
+        
+        
+        const cardTitle = document.createElement('h2');
+        cardTitle.textContent = 'Credit Workflow: Current State vs Desired Outcomes';
+        cardTitle.style.cssText = 'font-size: 1.5rem; font-weight: 600; color: #0c4da2; margin: 0 0 1rem 0; text-align: center;';
+        
+        cardHeader.appendChild(cardTitle);
+        cardHeader.appendChild(creditFlowProcess);
+        mainCard.appendChild(cardHeader);
+        
+        const mainContent = document.createElement('div');
+        mainContent.className = 'main-content';
+        mainContent.style.cssText = 'padding: 0.5rem 0;';
+        
+        // Two-column layout for main content
+        const mainLayout = document.createElement('div');
+        mainLayout.className = 'two-column-layout';
+        mainLayout.style.cssText = 'display: flex; flex-wrap: wrap; gap: 2rem; margin-bottom: 1rem;';
+        
+        const leftColumn = document.createElement('div');
+        leftColumn.className = 'column left-column';
+        leftColumn.style.cssText = 'flex: 1; min-width: 300px;';
+        
+        const rightColumn = document.createElement('div');
+        rightColumn.className = 'column right-column';
+        rightColumn.style.cssText = 'flex: 1; min-width: 300px;';
+        
+        mainLayout.appendChild(leftColumn);
+        mainLayout.appendChild(rightColumn);
         
         // Left column - pain points
         const painPoints = document.createElement('div');
         painPoints.className = 'pain-points';
+        painPoints.style.cssText = 'background-color: #fff8f8; border-radius: 0.5rem; padding: 1.5rem; border-left: 4px solid #e31937;';
         
         const painPointsTitle = document.createElement('h3');
         painPointsTitle.textContent = 'Current Pain Points:';
+        painPointsTitle.style.cssText = 'font-size: 1.25rem; font-weight: 600; color: #e31937; margin-top: 0; margin-bottom: 1rem;';
         painPoints.appendChild(painPointsTitle);
         
-        const painPointsList = this.createList([
+        // Create a custom styled list for pain points
+        const painPointsList = document.createElement('ul');
+        painPointsList.style.cssText = 'list-style: none; padding-left: 0; margin: 0;';
+        
+        const painPointsItems = [
             'Manual email-based process',
             'Lack of transparency',
             '"Sarah\'s on holiday = approvals stop for a week"',
@@ -39,76 +130,43 @@ class CreditRiskGoalsComponent extends BaseComponent {
             'No audit trail',
             'Inconsistent approvals',
             'Difficult to track status'
-        ]);
+        ];
+        
+        // Create list items with warning icons
+        painPointsItems.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.style.cssText = 'margin-bottom: 0.75rem; display: flex; align-items: flex-start;';
+            
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-exclamation-circle';
+            icon.style.cssText = 'color: #e31937; margin-right: 0.75rem; margin-top: 0.25rem;';
+            
+            const text = document.createElement('span');
+            text.textContent = item;
+            text.style.cssText = 'color: #4A5568;';
+            
+            listItem.appendChild(icon);
+            listItem.appendChild(text);
+            painPointsList.appendChild(listItem);
+        });
+        
         painPoints.appendChild(painPointsList);
         
-        // Right column - visualization
-        const visualization = document.createElement('div');
-        visualization.className = 'visualization';
-        
-        const emailProcess = document.createElement('div');
-        emailProcess.className = 'email-process';
-        emailProcess.innerHTML = `
-            <div class="email-flow">
-                <div class="email-icon">
-                    <i class="fas fa-envelope"></i>
-                    <span>Request</span>
-                </div>
-                <div class="email-arrow">→</div>
-                <div class="email-icon">
-                    <i class="fas fa-user"></i>
-                    <span>Approver 1</span>
-                </div>
-                <div class="email-arrow">→</div>
-                <div class="email-icon">
-                    <i class="fas fa-user"></i>
-                    <span>Approver 2</span>
-                </div>
-                <div class="email-arrow">→</div>
-                <div class="email-icon">
-                    <i class="fas fa-user"></i>
-                    <span>Approver 3</span>
-                </div>
-                <div class="email-arrow">→</div>
-                <div class="email-icon">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Approval</span>
-                </div>
-            </div>
-            <div class="email-problems">
-                <div class="email-problem">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <span>Delays</span>
-                </div>
-                <div class="email-problem">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Lost Emails</span>
-                </div>
-                <div class="email-problem">
-                    <i class="fas fa-clock"></i>
-                    <span>3-5 Days</span>
-                </div>
-            </div>
-        `;
-        visualization.appendChild(emailProcess);
-        
-        // Add columns to layout
-        currentStateLayout.children[0].appendChild(painPoints);
-        currentStateLayout.children[1].appendChild(visualization);
-        
-        currentStateContent.appendChild(currentStateLayout);
-        currentStateCard.appendChild(currentStateContent);
-        container.appendChild(currentStateCard);
-        
-        // Desired outcomes
+        // Right column - desired outcomes with light green background
         const desiredOutcomes = document.createElement('div');
-        desiredOutcomes.className = 'desired-outcomes mb-lg';
+        desiredOutcomes.className = 'desired-outcomes';
+        desiredOutcomes.style.cssText = 'background-color: #f0fff4; border-radius: 0.5rem; padding: 1.5rem; border-left: 4px solid #38a169;';
         
         const outcomesTitle = document.createElement('h3');
         outcomesTitle.textContent = 'Desired Outcomes:';
+        outcomesTitle.style.cssText = 'font-size: 1.25rem; font-weight: 600; color: #38a169; margin-top: 0; margin-bottom: 1rem;';
         desiredOutcomes.appendChild(outcomesTitle);
         
-        const outcomesList = this.createList([
+        // Create a custom styled list for outcomes
+        const outcomesList = document.createElement('ul');
+        outcomesList.style.cssText = 'list-style: none; padding-left: 0; margin: 0;';
+        
+        const outcomesItems = [
             'Transparent workflow with clear status tracking',
             'Consistent approval process',
             'Reduced approval time (target: 1-2 days)',
@@ -116,42 +174,39 @@ class CreditRiskGoalsComponent extends BaseComponent {
             'No dependency on individual availability',
             'Structured data collection',
             'Automated notifications'
-        ]);
-        desiredOutcomes.appendChild(outcomesList);
-        container.appendChild(desiredOutcomes);
-        
-        // Volume metrics
-        const volumeMetrics = document.createElement('div');
-        volumeMetrics.className = 'volume-metrics';
-        
-        const metricsTitle = document.createElement('h3');
-        metricsTitle.textContent = 'Current Process Metrics:';
-        volumeMetrics.appendChild(metricsTitle);
-        
-        const metricsContent = document.createElement('div');
-        metricsContent.className = 'metrics-content flex justify-between';
-        
-        const metrics = [
-            { label: 'Monthly Volume', value: '150', icon: 'fa-chart-line' },
-            { label: 'Avg. Approval Time', value: '3-5 days', icon: 'fa-clock' },
-            { label: 'Stakeholders Involved', value: '5', icon: 'fa-users' }
         ];
         
-        metrics.forEach(metric => {
-            const metricCard = document.createElement('div');
-            metricCard.className = 'metric-card';
-            metricCard.innerHTML = `
-                <div class="metric-icon">
-                    <i class="fas ${metric.icon}"></i>
-                </div>
-                <div class="metric-value">${metric.value}</div>
-                <div class="metric-label">${metric.label}</div>
-            `;
-            metricsContent.appendChild(metricCard);
+        // Create list items with checkmark icons
+        outcomesItems.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.style.cssText = 'margin-bottom: 0.75rem; display: flex; align-items: flex-start;';
+            
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-check-circle';
+            icon.style.cssText = 'color: #38a169; margin-right: 0.75rem; margin-top: 0.25rem;';
+            
+            const text = document.createElement('span');
+            text.textContent = item;
+            text.style.cssText = 'color: #4A5568;';
+            
+            listItem.appendChild(icon);
+            listItem.appendChild(text);
+            outcomesList.appendChild(listItem);
         });
         
-        volumeMetrics.appendChild(metricsContent);
-        container.appendChild(volumeMetrics);
+        desiredOutcomes.appendChild(outcomesList);
+        
+        // Add columns to layout
+        leftColumn.appendChild(painPoints);
+        rightColumn.appendChild(desiredOutcomes);
+        
+        mainContent.appendChild(mainLayout);
+        mainCard.appendChild(mainContent);
+        container.appendChild(mainCard);
+        
+        // Note: Desired Outcomes section has been moved to the right column
+        
+        // Note: Current Volume Metrics section has been removed to simplify the page
         
         // Add CSS for this component
         const style = document.createElement('style');
