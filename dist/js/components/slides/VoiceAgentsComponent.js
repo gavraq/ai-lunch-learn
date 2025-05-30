@@ -44,44 +44,91 @@ class VoiceAgentsComponent extends BaseComponent {
         introSection.appendChild(introCard);
         container.appendChild(introSection);
         
-        // Voice Agent Demo with visual card
-        const demoSection = document.createElement('div');
-        demoSection.className = 'demo-section';
-        
-        const demoTitle = document.createElement('h3');
-        demoTitle.className = 'section-title';
-        demoTitle.textContent = 'Voice Agent Demonstration';
-        demoSection.appendChild(demoTitle);
-        
-        const demoCard = document.createElement('div');
-        demoCard.className = 'demo-card';
-        
-        const videoContainer = document.createElement('div');
-        videoContainer.className = 'video-container';
-        
-        const videoOverlay = document.createElement('div');
-        videoOverlay.className = 'video-overlay';
-        
-        const demoImage = document.createElement('div');
-        demoImage.className = 'demo-image';
-        demoImage.style.backgroundImage = 'url("https://placehold.co/800x450/e6edf7/0c4da2?text=Voice+Agent+Demo")';
-        videoOverlay.appendChild(demoImage);
-        
-        const playBtn = document.createElement('button');
-        playBtn.className = 'play-btn';
-        playBtn.innerHTML = '<i class="fas fa-play"></i>';
-        videoOverlay.appendChild(playBtn);
-        
-        videoContainer.appendChild(videoOverlay);
-        demoCard.appendChild(videoContainer);
-        
-        const demoDescription = document.createElement('p');
-        demoDescription.className = 'demo-description';
-        demoDescription.textContent = 'This demonstration shows how voice agents can be used to handle complex tasks through natural conversation, from meeting transcription to interactive decision-making.';
-        demoCard.appendChild(demoDescription);
-        
-        demoSection.appendChild(demoCard);
-        container.appendChild(demoSection);
+        // Sesame Voice Agent Demo (embedded app)
+        const sesameSection = document.createElement('div');
+        sesameSection.className = 'sesame-section';
+
+        const sesameTitle = document.createElement('h3');
+        sesameTitle.className = 'section-title';
+        sesameTitle.textContent = 'Live Voice Agent Demo (Sesame)';
+        sesameSection.appendChild(sesameTitle);
+
+        const sesameIframeContainer = document.createElement('div');
+        sesameIframeContainer.className = 'sesame-iframe-container';
+
+        const sesameIframe = document.createElement('iframe');
+        sesameIframe.src = 'https://app.sesame.com/';
+        sesameIframe.width = '480';
+        sesameIframe.height = '520';
+        sesameIframe.style.border = '1px solid #d8e1e8';
+        sesameIframe.style.borderRadius = '16px';
+        sesameIframe.style.background = '#f9fafb';
+        sesameIframe.style.boxShadow = '0 4px 24px rgba(0,0,0,0.07)';
+        sesameIframe.allow = 'microphone; autoplay; clipboard-write; encrypted-media';
+        sesameIframeContainer.style.display = 'flex';
+        sesameIframeContainer.style.justifyContent = 'center';
+        sesameIframeContainer.style.alignItems = 'center';
+        sesameIframeContainer.style.margin = '2rem 0';
+        sesameIframeContainer.appendChild(sesameIframe);
+        sesameSection.appendChild(sesameIframeContainer);
+
+        const sesameNote = document.createElement('p');
+        sesameNote.className = 'demo-description';
+        sesameNote.style.textAlign = 'center';
+        sesameNote.style.color = '#6b7280';
+        sesameNote.innerHTML = 'Interact with a real voice agent – try calling Maya or Miles!';
+        sesameSection.appendChild(sesameNote);
+        container.appendChild(sesameSection);
+
+        // ... (rest of slide content remains unchanged)
+
+        // --- Move video demo to end of slide ---
+        const videoDemoSection = document.createElement('div');
+        videoDemoSection.className = 'video-demo-section';
+        videoDemoSection.style.marginTop = '2.5rem';
+        videoDemoSection.style.display = 'flex';
+        videoDemoSection.style.flexDirection = 'column';
+        videoDemoSection.style.alignItems = 'center';
+
+        const videoDemoText = document.createElement('p');
+        videoDemoText.style.fontWeight = '500';
+        videoDemoText.style.marginBottom = '1rem';
+        videoDemoText.style.textAlign = 'center';
+        videoDemoText.textContent = 'There are already companies starting to look into this  - See YouTube video from AI Daily Brief';
+        videoDemoSection.appendChild(videoDemoText);
+
+        const videoDemoLink = document.createElement('a');
+        videoDemoLink.href = 'https://www.youtube.com/watch?v=p3K51_CaQ0g';
+        videoDemoLink.target = '_blank';
+        videoDemoLink.rel = 'noopener noreferrer';
+        videoDemoLink.style.display = 'inline-block';
+        videoDemoLink.style.position = 'relative';
+        videoDemoLink.style.width = '320px';
+        videoDemoLink.style.height = '180px';
+
+        const videoThumbnail = document.createElement('img');
+        videoThumbnail.src = 'https://img.youtube.com/vi/p3K51_CaQ0g/hqdefault.jpg';
+        videoThumbnail.alt = 'AI Daily Brief YouTube Video';
+        videoThumbnail.style.width = '100%';
+        videoThumbnail.style.height = '100%';
+        videoThumbnail.style.objectFit = 'cover';
+        videoThumbnail.style.borderRadius = '12px';
+        videoDemoLink.appendChild(videoThumbnail);
+
+        const playOverlay = document.createElement('div');
+        playOverlay.style.position = 'absolute';
+        playOverlay.style.top = '0';
+        playOverlay.style.left = '0';
+        playOverlay.style.width = '100%';
+        playOverlay.style.height = '100%';
+        playOverlay.style.display = 'flex';
+        playOverlay.style.alignItems = 'center';
+        playOverlay.style.justifyContent = 'center';
+        playOverlay.innerHTML = '<i class="fas fa-play-circle" style="font-size: 3.5rem; color: rgba(255,255,255,0.85); text-shadow: 0 2px 8px rgba(0,0,0,0.25);"></i>';
+        videoDemoLink.appendChild(playOverlay);
+
+        videoDemoSection.appendChild(videoDemoLink);
+        container.appendChild(videoDemoSection);
         
         // Voice Agent Benefits with visual cards
         const benefitsSection = document.createElement('div');
