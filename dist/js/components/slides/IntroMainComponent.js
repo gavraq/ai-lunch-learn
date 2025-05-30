@@ -68,7 +68,7 @@ class IntroMainComponent extends BaseComponent {
         const presenterInfo = document.createElement('div');
         presenterInfo.innerHTML = `
             <h3 style="font-size: 1.25rem; font-weight: 600; color: #323F4B; margin-bottom: 0.5rem;">Presented by:</h3>
-            <p style="font-size: 1rem; color: #4A5568; margin-bottom: 0.25rem;">Risk IT Team Member</p>
+            <p style="font-size: 1rem; color: #4A5568; margin-bottom: 0.25rem;">Gavin Slater</p>
             <p style="font-size: 0.875rem; color: #7B8794;">May 2025</p>
         `;
         
