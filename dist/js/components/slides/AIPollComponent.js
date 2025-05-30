@@ -10,7 +10,7 @@ class AIPollComponent extends BaseComponent {
             },
             {
                 question: "What models are you using?",
-                options: ["ChatGPT", "Claude", "Grok", "Gemini", "Perplexity", "Other", "None"],
+                options: ["ChatGPT", "Claude", "Grok", "Gemini", "Perplexity", "Co-pilot", "Other", "None"],
                 results: [0, 0, 0, 0, 0, 0, 0]
             },
             {
@@ -144,13 +144,14 @@ class AIPollComponent extends BaseComponent {
             optionElement.className = 'poll-option';
             
             // For poll index 1 ("What models are you using?"), add icons next to model names
-            if (index === 1 && optionIndex < 5) { // Only for the first 5 options (the AI models)
+            if (index === 1 && optionIndex < 6) { // Only for the first 6 options (the AI models)
                 const iconSrc = {
                     'ChatGPT': 'assets/images/openai.png',
                     'Claude': 'assets/images/claude-color.png',
                     'Grok': 'assets/images/grok.png',
                     'Gemini': 'assets/images/gemini-color.png',
-                    'Perplexity': 'assets/images/perplexity-color.png'
+                    'Perplexity': 'assets/images/perplexity-color.png',
+                    'Co-pilot': 'assets/images/copilot-color.png'
                 }[option];
                 
                 if (iconSrc) {
@@ -187,13 +188,14 @@ class AIPollComponent extends BaseComponent {
             resultLabel.className = 'flex justify-between mb-xs';
             
             // For poll index 1 ("What models are you using?"), add icons next to model names in results
-            if (index === 1 && optionIndex < 5) { // Only for the first 5 options (the AI models)
+            if (index === 1 && optionIndex < 6) { // Only for the first 6 options (the AI models)
                 const iconSrc = {
                     'ChatGPT': 'assets/images/openai.png',
                     'Claude': 'assets/images/claude-color.png',
                     'Grok': 'assets/images/grok.png',
                     'Gemini': 'assets/images/gemini-color.png',
-                    'Perplexity': 'assets/images/perplexity-color.png'
+                    'Perplexity': 'assets/images/perplexity-color.png',
+                    'Co-pilot': 'assets/images/copilot-color.png'
                 }[option];
                 
                 if (iconSrc) {
