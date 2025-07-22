@@ -13,11 +13,6 @@ const presentationConfig = {
                     component: "IntroMainComponent"
                 },
                 {
-                    id: "poll",
-                    title: "Interactive Poll",
-                    component: "AIPollComponent"
-                },
-                {
                     id: "superwhisper",
                     title: "Superwhisper Demo",
                     component: "SuperwhisperDemoComponent"

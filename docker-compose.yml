@@ -18,24 +18,6 @@ services:
     networks:
       - ai-lunch-learn-net
 
-  ai-lunch-learn-backend:
-    build:
-      context: .
-      dockerfile: Dockerfile.backend
-    container_name: ai-lunch-learn-backend
-    ports:
-      - "5050:5050"
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5050/results')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-    environment:
-      - PYTHONUNBUFFERED=1
-    networks:
-      - ai-lunch-learn-net
 
 networks:
   ai-lunch-learn-net:

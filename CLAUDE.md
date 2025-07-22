@@ -10,18 +10,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 python3 -m http.server 8080 --directory dist --bind 0.0.0.0
 ```
 
-### Poll Backend (optional for interactive features)
-```bash
-# Install dependencies
-pip install flask flask-cors
-
-# Run the poll backend
-python poll_backend.py
-```
 
 ### Docker Development
 ```bash
-# Build and run both frontend and backend services
+# Build and run frontend service
 docker compose up --build
 
 # Run in background
@@ -30,7 +22,7 @@ docker compose up -d
 # View logs
 docker compose logs -f
 
-# Stop services
+# Stop service
 docker compose down
 ```
 
@@ -45,7 +37,7 @@ docker compose -f docker-compose.gce.yml up -d --build
 # View production logs
 docker compose -f docker-compose.gce.yml logs -f
 
-# Stop production services
+# Stop production service
 docker compose -f docker-compose.gce.yml down
 ```
 
@@ -54,9 +46,8 @@ docker compose -f docker-compose.gce.yml down
 # Check component class names match their registrations
 ./check_components.sh
 
-# Test Docker containers health
-curl http://localhost:8080/health
-curl http://localhost:5050/results
+# Test Docker container health
+curl http://localhost:8081/health
 ```
 
 ## Architecture Overview
@@ -95,31 +86,27 @@ The main presentation logic (`dist/js/presentation.js`) handles:
 - External dependencies loaded via CDN (Font Awesome, Google Fonts, Mermaid.js)
 
 ### Interactive Features
-- Optional Flask backend (`poll_backend.py`) for live polls
-- Frontend polls work standalone without backend
-- WebSocket-style updates for real-time results
+- Pure frontend presentation with no backend dependencies
+- Static file serving for optimal performance
 
 ## Deployment
 
 ### Production Architecture
-The application is deployed on Google Cloud Platform using Docker containers behind Nginx Proxy Manager:
+The application is deployed on Google Cloud Platform using Docker container behind Nginx Proxy Manager:
 
 ```
-Internet → GCP Firewall → Nginx Proxy Manager → Docker Containers
+Internet → GCP Firewall → Nginx Proxy Manager → Docker Container
                                 ↓                        ↓
-                          ai.risk-agents.com    Frontend (port 8080)
-                                                Backend (port 5050)
+                          ai.risk-agents.com      Frontend (port 8081)
 ```
 
-### Docker Services
+### Docker Service
 - **Frontend**: Python HTTP server serving static files from `dist/` directory
-- **Backend**: Flask API for poll functionality with CORS enabled
-- **Network**: Custom bridge network for inter-service communication
-- **Health Checks**: Built-in health monitoring for both services
+- **Health Checks**: Built-in health monitoring for service availability
+- **Security**: Non-root user execution with security headers
 
 ### Nginx Proxy Manager Configuration
 Domain: `ai.risk-agents.com`
-- Main site → `localhost:8080` (frontend)
-- API routes (`/vote`, `/results`, `/reset`) → `localhost:5050` (backend)
+- Main site → `10.142.0.2:8081` (frontend container)
 - SSL certificate via Let's Encrypt
 - Security headers and caching enabled

@@ -2,14 +2,14 @@
 
 ## Overview
 
-This guide provides complete instructions for deploying the AI Lunch & Learn presentation application on Google Cloud Platform using Docker containers, Nginx Proxy Manager, and Let's Encrypt SSL certificates.
+This guide provides complete instructions for deploying the AI Lunch & Learn presentation application on Google Cloud Platform using Docker container, Nginx Proxy Manager, and Let's Encrypt SSL certificates.
 
 ## Final Architecture
 
 ```
-Internet → GCP Firewall → Nginx Proxy Manager → Docker Containers
+Internet → GCP Firewall → Nginx Proxy Manager → Docker Container
                 ↓                                        ↓
-           ai.risk-agents.com                    Frontend (8080) + Backend (5050)
+           ai.risk-agents.com                      Frontend (8081)
                 ↓
            Let's Encrypt SSL
 ```
@@ -33,7 +33,7 @@ cd ai-lunch-learn
 ### 1.2 Local Development with Docker
 
 ```bash
-# Build and run both services
+# Build and run frontend service
 docker compose up --build
 
 # Or run in background
@@ -42,17 +42,15 @@ docker compose up -d
 # View logs
 docker compose logs -f
 
-# Test health endpoints
+# Test health endpoint
 curl http://localhost:8080/health
-curl http://localhost:5050/results
 
-# Stop services
+# Stop service
 docker compose down
 ```
 
 The application will be available at:
 - Frontend: http://localhost:8080
-- Backend API: http://localhost:5050
 
 ## Part 2: Production Deployment on GCP
 
@@ -74,7 +72,7 @@ cd ai-lunch-learn
 
 The script will:
 - Install Docker and Docker Compose if needed
-- Build and start the containers
+- Build and start the container
 - Create a systemd service for auto-restart
 - Display configuration instructions for Nginx Proxy Manager
 
@@ -89,7 +87,7 @@ cd /home/gavin_n_slater/ai-lunch-learn
 # Stop any existing containers
 sudo docker compose -f docker-compose.gce.yml down
 
-# Build and start production containers
+# Build and start production container
 sudo docker compose -f docker-compose.gce.yml build --no-cache
 sudo docker compose -f docker-compose.gce.yml up -d
 
@@ -103,9 +101,8 @@ sudo docker compose -f docker-compose.gce.yml logs -f
 ### 2.3 Verify Deployment
 
 ```bash
-# Test health endpoints
-curl http://localhost:8080/health
-curl http://localhost:5050/results
+# Test health endpoint
+curl http://localhost:8081/health
 
 # Check container logs
 sudo docker compose -f docker-compose.gce.yml logs
@@ -127,8 +124,8 @@ http://YOUR_VM_IP:81
 2. **Details Tab:**
    - Domain Names: `ai.risk-agents.com`
    - Scheme: `http`
-   - Forward Hostname/IP: `YOUR_VM_IP` (or `localhost`)
-   - Forward Port: `8080`
+   - Forward Hostname/IP: `10.142.0.2`
+   - Forward Port: `8081`
    - Cache Assets: ✅ Enabled
    - Block Common Exploits: ✅ Enabled
 
@@ -136,56 +133,7 @@ http://YOUR_VM_IP:81
    - SSL Certificate: Request a new SSL Certificate
    - Force SSL: ✅ Enabled
    - Email Address: Your email for Let's Encrypt
-   - Use a DNS Challenge: ❌ Disabled (unless you have DNS API access)
    - I Agree to the Let's Encrypt Terms of Service: ✅ Enabled
-
-### 3.3 Configure API Routes
-
-Create custom location rules for the backend API:
-
-1. **In the Proxy Host, go to "Advanced" tab**
-
-2. **Add Custom Nginx Configuration:**
-```nginx
-# API routes to backend
-location /vote {
-    proxy_pass http://YOUR_VM_IP:5050;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_cache_bypass $http_upgrade;
-}
-
-location /results {
-    proxy_pass http://YOUR_VM_IP:5050;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_cache_bypass $http_upgrade;
-}
-
-location /reset {
-    proxy_pass http://YOUR_VM_IP:5050;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_cache_bypass $http_upgrade;
-}
-```
-
-Replace `YOUR_VM_IP` with your actual VM IP address or use `localhost`.
 
 ## Part 4: DNS Configuration
 
@@ -213,8 +161,7 @@ nslookup ai.risk-agents.com
 ### 5.1 Test the Application
 
 1. **Access the site:** https://ai.risk-agents.com
-2. **Test poll functionality:** Try voting in the interactive polls
-3. **Check SSL certificate:** Verify the green lock icon in browser
+2. **Verify SSL certificate:** Confirm the green lock icon in browser
 
 ### 5.2 Monitor Logs
 
@@ -225,9 +172,8 @@ cd /home/gavin_n_slater/ai-lunch-learn
 # Watch application logs
 sudo docker compose -f docker-compose.gce.yml logs -f
 
-# Check specific service logs
-sudo docker compose -f docker-compose.gce.yml logs -f ai-lunch-learn-frontend
-sudo docker compose -f docker-compose.gce.yml logs -f ai-lunch-learn-backend
+# Check service logs
+sudo docker compose -f docker-compose.gce.yml logs ai-lunch-learn-frontend
 ```
 
 ## Part 6: Management and Updates
@@ -241,17 +187,17 @@ cd /home/gavin_n_slater/ai-lunch-learn
 # Pull latest changes
 git pull origin main
 
-# Rebuild and restart containers
+# Rebuild and restart container
 sudo docker compose -f docker-compose.gce.yml up -d --build
 ```
 
-### 6.2 Manage Services
+### 6.2 Manage Service
 
 ```bash
-# Start services
+# Start service
 sudo systemctl start ai-lunch-learn
 
-# Stop services
+# Stop service
 sudo systemctl stop ai-lunch-learn
 
 # Check service status
@@ -261,22 +207,21 @@ sudo systemctl status ai-lunch-learn
 sudo journalctl -u ai-lunch-learn -f
 ```
 
-### 6.3 Backup and Restore
+### 6.3 Container Management
 
 ```bash
-# Backup poll data (if persistent storage is added later)
-sudo docker compose -f docker-compose.gce.yml exec ai-lunch-learn-backend \
-    curl http://localhost:5050/results > poll_backup.json
-
 # Container cleanup
 sudo docker system prune -f
+
+# Check resource usage
+sudo docker stats
 ```
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Containers not starting:**
+1. **Container not starting:**
    ```bash
    sudo docker compose -f docker-compose.gce.yml logs
    sudo docker ps -a
@@ -284,8 +229,7 @@ sudo docker system prune -f
 
 2. **Port conflicts:**
    ```bash
-   sudo netstat -tulpn | grep :8080
-   sudo netstat -tulpn | grep :5050
+   sudo netstat -tulpn | grep :8081
    ```
 
 3. **SSL certificate issues:**
@@ -293,18 +237,13 @@ sudo docker system prune -f
    - Verify DNS is pointing to correct IP
    - Ensure ports 80/443 are open in GCP firewall
 
-4. **API not working:**
-   - Test backend directly: `curl http://localhost:5050/results`
-   - Check Nginx Proxy Manager advanced configuration
-   - Verify container networking
-
 ### Useful Commands
 
 ```bash
-# Check Docker containers
+# Check Docker container
 sudo docker ps
 
-# Restart specific container
+# Restart container
 sudo docker compose -f docker-compose.gce.yml restart ai-lunch-learn-frontend
 
 # Access container shell
@@ -312,18 +251,14 @@ sudo docker compose -f docker-compose.gce.yml exec ai-lunch-learn-frontend sh
 
 # Check disk usage
 sudo docker system df
-
-# View container resource usage
-sudo docker stats
 ```
 
 ## Security Considerations
 
-- Containers run as non-root users
+- Container runs as non-root user
 - Health checks monitor service availability
-- Security headers implemented in both server and proxy
+- Security headers implemented in server and proxy
 - SSL/TLS encryption for all traffic
-- CORS configured for domain-specific access
 - Block common exploits enabled in Nginx Proxy Manager
 
 ## Performance Optimization
@@ -338,9 +273,8 @@ sudo docker stats
 
 ## Quick Reference
 
-**Health Endpoints:**
+**Health Endpoint:**
 - Frontend: https://ai.risk-agents.com/health
-- Backend: http://YOUR_VM_IP:5050/results
 
 **Management Commands:**
 ```bash
@@ -353,5 +287,4 @@ sudo docker stats
 **Service Access:**
 - Production Site: https://ai.risk-agents.com
 - Nginx Proxy Manager: http://YOUR_VM_IP:81
-- Direct Frontend: http://YOUR_VM_IP:8080
-- Direct Backend: http://YOUR_VM_IP:5050
+- Direct Frontend: http://YOUR_VM_IP:8081
