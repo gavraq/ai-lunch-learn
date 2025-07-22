@@ -4,6 +4,13 @@
 
 The AI Lunch & Learn project is a web-based interactive presentation titled "AI Lunch & Learn: From AI User to AI Manager." It uses a component-based architecture to create a modular, maintainable slideshow application. The presentation is designed to be interactive, with various components handling different types of slide content, including interactive polls, demos, and resources.
 
+## Start the presentation
+To start the presentation use the following command:
+```
+python3 -m http.server 8080 --directory dist --bind 0.0.0.0
+```
+
+
 ## Project Structure
 
 ```

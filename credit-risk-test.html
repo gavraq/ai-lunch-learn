@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Risk Component Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        #container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0c4da2;
+        }
+        .debug-info {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Credit Risk Component Test</h1>
+        <div id="component-container"></div>
+        <div class="debug-info">
+            <h3>Debug Information</h3>
+            <div id="debug-output"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple logging function
+        function log(message) {
+            console.log(message);
+            const debugOutput = document.getElementById('debug-output');
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${new Date().toISOString()}] ${message}`;
+            debugOutput.appendChild(logEntry);
+        }
+
+        // Basic BaseComponent implementation
+        class BaseComponent {
+            constructor(slideData) {
+                this.slideData = slideData || {};
+                log('BaseComponent constructor called');
+            }
+            
+            render() {
+                log('BaseComponent render called');
+                return this.createContent().outerHTML;
+            }
+            
+            initialize() {
+                log('BaseComponent initialize called');
+            }
+            
+            cleanup() {
+                log('BaseComponent cleanup called');
+            }
+        }
+
+        // Simple Credit Risk Goals Component
+        class CreditRiskGoalsComponent extends BaseComponent {
+            createContent() {
+                log('CreditRiskGoalsComponent.createContent called');
+                
+                const container = document.createElement('div');
+                container.style.cssText = 'max-width: 1200px; margin: 0 auto;';
+                
+                // Main heading
+                const heading = document.createElement('h2');
+                heading.innerHTML = "What are Credit Risk trying to achieve?";
+                heading.style.cssText = 'font-size: 1.5rem; font-weight: 700; color: #0c4da2; margin-bottom: 1.5rem;';
+                container.appendChild(heading);
+                
+                // Introduction
+                const intro = document.createElement('div');
+                intro.className = 'intro';
+                intro.style.cssText = 'margin-bottom: 2rem;';
+                
+                const introText = document.createElement('p');
+                introText.innerHTML = "Let's look at a worked example: From Emails to Apps - Credit Risk Workflow Journey";
+                introText.style.cssText = 'font-size: 1.125rem; font-weight: 500; color: #4A5568;';
+                intro.appendChild(introText);
+                container.appendChild(intro);
+                
+                // Simple content
+                const content = document.createElement('div');
+                content.className = 'content';
+                content.style.cssText = 'background: #FFFFFF; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 2rem;';
+                
+                const contentText = document.createElement('p');
+                contentText.innerHTML = "This is a test version of the Credit Risk Goals component to ensure it loads properly.";
+                contentText.style.cssText = 'font-size: 1rem; color: #4A5568;';
+                content.appendChild(contentText);
+                container.appendChild(content);
+                
+                return container;
+            }
+        }
+
+        // Initialize the component
+        document.addEventListener('DOMContentLoaded', () => {
+            log('DOM content loaded');
+            try {
+                // Create an instance of the component
+                const component = new CreditRiskGoalsComponent({
+                    id: 'credit-risk-goals',
+                    title: 'What are Credit Risk trying to achieve?'
+                });
+                
+                log('Component instance created');
+                
+                // Render the component
+                document.getElementById('component-container').innerHTML = component.render();
+                log('Component rendered');
+                
+                // Initialize the component
+                component.initialize();
+                log('Component initialized');
+                
+            } catch (error) {
+                log(`Error: ${error.message}`);
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

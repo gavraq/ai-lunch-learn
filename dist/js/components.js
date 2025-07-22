@@ -108,6 +108,7 @@ window.componentRegistry = componentRegistry;
  */
 function registerComponents() {
     // Introduction section components
+    componentRegistry.register('IntroMainComponent', IntroMainComponent);
     componentRegistry.register('AIPollComponent', AIPollComponent);
     componentRegistry.register('SuperwhisperDemoComponent', SuperwhisperDemoComponent);
     componentRegistry.register('AgenticWorldComponent', AgenticWorldComponent);

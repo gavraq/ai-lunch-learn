@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Risk Goals Component Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        #component-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Credit Risk Goals Component Test</h1>
+    <div id="component-container"></div>
+
+    <script>
+        // Simple BaseComponent implementation
+        class BaseComponent {
+            constructor(slideData) {
+                this.slideData = slideData || {};
+                console.log('BaseComponent constructor called');
+            }
+            
+            render() {
+                console.log('BaseComponent render called');
+                const container = document.createElement('div');
+                container.appendChild(this.createContent());
+                return container.innerHTML;
+            }
+            
+            initialize() {
+                console.log('BaseComponent initialize called');
+            }
+            
+            cleanup() {
+                console.log('BaseComponent cleanup called');
+            }
+        }
+        
+        // Load the component script
+        const script = document.createElement('script');
+        script.src = '/dist/js/components/slides/CreditRiskGoalsComponent.js';
+        script.onload = function() {
+            console.log('CreditRiskGoalsComponent script loaded');
+            
+            if (typeof CreditRiskGoalsComponent === 'undefined') {
+                console.error('CreditRiskGoalsComponent is not defined');
+                document.getElementById('component-container').innerHTML = '<p>Error: CreditRiskGoalsComponent is not defined</p>';
+                return;
+            }
+            
+            try {
+                // Create an instance of the component
+                const component = new CreditRiskGoalsComponent({
+                    id: 'credit-risk-goals',
+                    title: 'What are Credit Risk trying to achieve?'
+                });
+                
+                // Render the component
+                document.getElementById('component-container').innerHTML = component.render();
+                
+                // Initialize the component
+                setTimeout(() => {
+                    if (typeof component.initialize === 'function') {
+                        component.initialize();
+                    }
+                }, 100);
+                
+                console.log('Component rendered and initialized');
+            } catch (error) {
+                console.error('Error creating or rendering component:', error);
+                document.getElementById('component-container').innerHTML = '<p>Error: ' + error.message + '</p>';
+            }
+        };
+        script.onerror = function() {
+            console.error('Failed to load CreditRiskGoalsComponent script');
+            document.getElementById('component-container').innerHTML = '<p>Error: Failed to load component script</p>';
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>
