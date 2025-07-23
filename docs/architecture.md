@@ -2,7 +2,7 @@
 
 ## Overview
 
-The AI Lunch & Learn project is a web-based interactive presentation titled "AI Lunch & Learn: From AI User to AI Manager." It uses a component-based architecture to create a modular, maintainable slideshow application. The presentation is designed to be interactive, with various components handling different types of slide content, including interactive polls, demos, and resources.
+The AI Lunch & Learn project is a web-based presentation titled "AI Lunch & Learn: From AI User to AI Manager." It uses a component-based architecture to create a modular, maintainable slideshow application. The presentation includes various components handling different types of slide content, demos, and resources.
 
 ## Start the presentation
 To start the presentation use the following command:
@@ -176,7 +176,6 @@ Individual components that implement specific slide types:
 - Located in `js/components/slides/`
 
 Examples:
-- `AIPollComponent`: Interactive poll for audience engagement
 - `AgenticWorldComponent`: Information about AI agents and future possibilities
 - `OldVsNewComponent`: Comparison of traditional vs. AI-assisted approaches
 - `ResourcesComponent`: Resource links and information
